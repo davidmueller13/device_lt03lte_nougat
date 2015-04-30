@@ -14,6 +14,8 @@ camera2.portability.force_api=1
 # Set number of elements expected in QUERY_AVAILABLE_NETWORKS
 ro.ril.telephony.qan_resp_strings=6
 
+ro.telephony.mms_data_profile=5
+
 # Evolution RIL (8xxx)
 rild.libpath=/system/vendor/lib/libsec-ril.so
 persist.rild.nitz_plmn=
