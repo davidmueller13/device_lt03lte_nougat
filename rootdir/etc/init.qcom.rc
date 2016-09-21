@@ -46,8 +46,6 @@ on init
     mkdir /storage 0550 system sdcard_r
     mkdir /storage/emulated 0555 root root
 
-    # Support legacy paths
-    symlink /sdcard /mnt/sdcard
     symlink /sdcard /storage/sdcard0
 
 on early-boot
