@@ -1,0 +1,2 @@
+allow rild proc_net:file { getattr open read write };
+allow rild sysfs_sec:file { getattr open read write };
