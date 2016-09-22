@@ -47,6 +47,8 @@ on init
     mkdir /storage/emulated 0555 root root
 
     symlink /sdcard /storage/sdcard0
+    symlink /sdcard1 /storage/sdcard1		      symlink /sdcard1 /storage/sdcard1
+    symlink /sdcard1 /mnt/extSdCard
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
