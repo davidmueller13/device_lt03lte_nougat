@@ -268,11 +268,11 @@ int camera_msg_type_enabled(struct camera_device * device, int32_t msg_type)
 
 int camera_start_preview(struct camera_device * device)
 {
-    ALOGE("%s:%u", __func__,__LINE__);
-    ALOGI("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device, (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
-
-    if(!device)
+    if (!device)
         return -EINVAL;
+
+    ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
+            (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
 
     return VENDOR_CALL(device, start_preview);
 }
