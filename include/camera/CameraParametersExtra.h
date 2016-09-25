@@ -122,13 +122,7 @@ const char CameraParameters::PIXEL_FORMAT_YUV420SP_ADRENO[] = "yuv420sp-adreno";
 const char CameraParameters::PIXEL_FORMAT_RAW[] = "raw"; \
 const char CameraParameters::PIXEL_FORMAT_YV12[] = "yuv420p"; \
 const char CameraParameters::PIXEL_FORMAT_NV12[] = "nv12"; \
-
-
-
-
-
-
-
+int CameraParameters::getInt64(__attribute__((__unused__)) const char *key) const { return -1; } \
 
 #define CAMERA_PARAMETERS_EXTRA_H \
     static const char KEY_DIS[]; \
