@@ -45,10 +45,16 @@ on init
     mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage 0550 system sdcard_r
     mkdir /storage/emulated 0555 root root
-
+    
+     # Support legacy paths
+    symlink /sdcard /mnt/sdcard
     symlink /sdcard /storage/sdcard0
-    symlink /sdcard1 /storage/sdcard1		      symlink /sdcard1 /storage/sdcard1
-    symlink /sdcard1 /mnt/extSdCard
+
+    symlink /extSdCard /mnt/extSdCard
+    symlink /extSdCard /storage/sdcard1
+
+    symlink /usbdisk /mnt/usbdisk
+    symlink /usbdisk /storage/usbdisk
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
