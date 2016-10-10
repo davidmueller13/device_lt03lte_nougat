@@ -48,6 +48,8 @@ import com.android.internal.telephony.uicc.IccUtils;
  */
 public class LtlteRIL extends RIL implements CommandsInterface {
 
+	private boolean setPreferredNetworkTypeSeen = false;
+
     static final int RIL_REQUEST_DIAL_EMERGENCY = 10016;
     static final int RIL_UNSOL_DEVICE_READY_NOTI = 11008;
     static final int RIL_UNSOL_AM = 11010;
@@ -59,10 +61,10 @@ public class LtlteRIL extends RIL implements CommandsInterface {
      
     private AudioManager mAudioManager;
 
-    public LtlteRIL(Context context, int networkMode, int cdmaSubscription) {
-        super(context, networkMode, cdmaSubscription, null);
-        mQANElements = SystemProperties.getInt("ro.ril.telephony.mqanelements", 6);
-    }
+    public LtlteRIL(Context context, int networkModes, int cdmaSubscription) {
+	this(context, networkModes, cdmaSubscription, null);
+	
+	}
 
     public LtlteRIL(Context context, int preferredNetworkType,
             int cdmaSubscription, Integer instanceId) {
@@ -295,6 +297,19 @@ public class LtlteRIL extends RIL implements CommandsInterface {
         }
         return response;
     }
+    
+  @Override
+     public void setPreferredNetworkType(int networkType , Message response) {
+         riljLog("setPreferredNetworkType: " + networkType);
+ 
+         if (!setPreferredNetworkTypeSeen) {
+             riljLog("Need to reboot modem!");
+             setRadioPower(false, null);
+             setPreferredNetworkTypeSeen = true;
+         }
+ 
+         super.setPreferredNetworkType(networkType, response);
+     }
 
     /**
      * Set audio parameter "wb_amr" for HD-Voice (Wideband AMR).
