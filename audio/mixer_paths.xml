@@ -1015,5 +1015,9 @@
     <path name="speaker-and-headphones-cdp">
         <path name="speaker-and-headphones" />
     </path>
+    
+    <path name="rec-stereo-mic">
+        <path name="rec-main-mic" />
+    </path>
 
 </mixer>
