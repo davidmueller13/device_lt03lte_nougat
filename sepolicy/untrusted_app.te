@@ -9,4 +9,8 @@ allow untrusted_app rootfs:dir { read };
 allow untrusted_app sysfs:file { read };
 allow untrusted_app sysfs:file { open };
 
+allow untrusted_app rootfs:dir { open };
+
+allow untrusted_app input_device:dir { read};
+
 

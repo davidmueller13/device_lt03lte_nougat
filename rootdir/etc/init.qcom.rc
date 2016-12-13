@@ -159,18 +159,6 @@ on boot
     write /proc/sys/net/ipv6/conf/rmnet_usb2/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb3/accept_ra 2
 
-    # leds
-    chown system system  /sys/class/sec/sec_touchkey/brightness
-    chown system system  /sys/class/sec/sec_touchkey/max_brightness
-
-    chown system system  /sys/class/leds/led:rgb_green/brightness
-    chown system system  /sys/class/leds/led:rgb_blue/brightness
-
-    chown system system  /sys/class/leds/led:rgb_green/blink
-    chown system system  /sys/class/leds/led:rgb_blue/blink
-
-    chown system camera /sys/class/camera/flash/rear_flash
-
     # IR_LED
     chown system radio /sys/class/sec/sec_ir/ir_send
     chown system radio /sys/class/sec/sec_ir/ir_send_result
@@ -211,14 +199,14 @@ on boot
     chown root system  /sys/class/sec/sec_touchkey/max_brightness
     chmod 0664  /sys/class/sec/sec_touchkey/max_brightness
 
-    chown system system  /sys/class/leds/led:rgb_green/brightness
+    chown root system  /sys/class/leds/led:rgb_green/brightness
     chmod 0664  /sys/class/leds/led:rgb_green/brightness
-    chown system system  /sys/class/leds/led:rgb_blue/brightness
+    chown root system  /sys/class/leds/led:rgb_blue/brightness
     chmod 0664  /sys/class/leds/led:rgb_blue/brightness
 
-    chown system system  /sys/class/leds/led:rgb_green/blink
+    chown root system  /sys/class/leds/led:rgb_green/blink
     chmod 0664  /sys/class/leds/led:rgb_green/blink
-    chown system system  /sys/class/leds/led:rgb_blue/blink
+    chown root system  /sys/class/leds/led:rgb_blue/blink
     chmod 0664  /sys/class/leds/led:rgb_blue/blink
 
     chmod 666 /sys/class/camera/flash/rear_flash
