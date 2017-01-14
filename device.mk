@@ -72,10 +72,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.cabl=1 \
     ro.secwvk=144 \
     ro.sf.lcd_density=320
-
-# Gello
-PRODUCT_PACKAGES += \
-    Gello \
     
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/gps.conf:/system/etc/gps.conf \
@@ -153,7 +149,6 @@ PRODUCT_PACKAGES += \
     macloader \
     hostapd \
     hostapd_default.conf \
-    dhcpcd.conf \
     libwpa_client \
     wpa_supplicant \
     wpa_supplicant.conf
