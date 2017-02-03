@@ -60,6 +60,9 @@ TARGET_NEEDS_GCC_LIBC := true
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 
+# Charger
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
+
 # CMHW
 BOARD_HARDWARE_CLASS += device/samsung/lt03lte/cmhw
 

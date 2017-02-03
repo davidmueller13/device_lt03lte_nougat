@@ -27,6 +27,7 @@
 
 import init.qcom.usb.rc
 import init.target.rc
+import init.qcom.power.rc
 
 on early-init
     setprop sys.boot_completed 0
@@ -633,10 +634,6 @@ service hcidump /system/bin/sh /system/etc/hcidump.sh
     group bluetooth system net_bt_admin net_admin
     disabled
     oneshot
-
-service charger /charger
-    class charger
-    seclabel u:r:healthd:s0
 
 # Disable SSR to SoC restart
 on property:persist.sys.ssr.restart_level=1
