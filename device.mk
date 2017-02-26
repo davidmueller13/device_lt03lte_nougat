@@ -36,6 +36,7 @@ TARGET_SCREEN_WIDTH := 2560
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
 
+
 $(call inherit-product-if-exists, frameworks/native/build/phone-xhdpi-2048-hwui-memory.mk)
 
 # Add WiFi Config files
