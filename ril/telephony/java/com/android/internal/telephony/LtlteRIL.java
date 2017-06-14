@@ -72,23 +72,6 @@ public class LtlteRIL extends RIL implements CommandsInterface {
         mQANElements = SystemProperties.getInt("ro.ril.telephony.mqanelements", 6);
     }
 
-    private Object
-    responseDataRegistrationState(Parcel p) {
-        String response[] = (String[])responseStrings(p); // all data from parcell get popped
-        /* DANGER WILL ROBINSON
-         * In some cases from Vodaphone we are receiving a RAT of 102
-         * while in tunnels of the metro. Lets Assume that if we
-         * receive 102 we actually want a RAT of 2 for EDGE service */
-        try {
-            int tech = Integer.parseInt(response[3]);
-            if (tech>=100) tech -= 100;
-            response[3] = Integer.toString(tech);
-        } catch(NumberFormatException e) {
-            response[3] = "2";
-        }
-        return response;
-    }
-
     protected Object
     responseCallList(Parcel p) {
         int num;
@@ -268,9 +251,6 @@ public class LtlteRIL extends RIL implements CommandsInterface {
             case RIL_UNSOL_DEVICE_READY_NOTI:
                 ret =  responseVoid(p);
                 break;
-            case RIL_UNSOL_NITZ_TIME_RECEIVED:
-                handleNitzTimeReceived(p);
-                break;
             case RIL_UNSOL_AM:
                 ret = responseString(p);
                 String amString = (String) ret;
@@ -299,6 +279,23 @@ public class LtlteRIL extends RIL implements CommandsInterface {
                 return;
         }
 
+    }
+
+    private Object
+    responseDataRegistrationState(Parcel p) {
+        String response[] = (String[])responseStrings(p); // all data from parcell get popped
+        /* DANGER WILL ROBINSON
+         * In some cases from Vodaphone we are receiving a RAT of 102
+         * while in tunnels of the metro. Lets Assume that if we
+         * receive 102 we actually want a RAT of 2 for EDGE service */
+        try {
+            int tech = Integer.parseInt(response[3]);
+            if (tech>=100) tech -= 100;
+            response[3] = Integer.toString(tech);
+        } catch(NumberFormatException e) {
+            response[3] = "2";
+        }
+        return response;
     }
     
   @Override
@@ -377,24 +374,6 @@ public class LtlteRIL extends RIL implements CommandsInterface {
 
         send(rr);
     }
-    
-    private void
-    handleNitzTimeReceived(Parcel p) {
-        String nitz = (String)responseString(p);
-        //if (RILJ_LOGD) unsljLogRet(RIL_UNSOL_NITZ_TIME_RECEIVED, nitz);
-
-        // has bonus long containing milliseconds since boot that the NITZ
-        // time was received
-        long nitzReceiveTime = p.readLong();
-
-        Object[] result = new Object[2];
-
-        String fixedNitz = nitz;
-        String[] nitzParts = nitz.split(",");
-        if (nitzParts.length == 4) {
-            // 0=date, 1=time+zone, 2=dst, 3=garbage that confuses GsmServiceStateTracker (so remove it)
-            fixedNitz = nitzParts[0]+","+nitzParts[1]+","+nitzParts[2]+",";
-        }
     
         @Override
     protected Object
