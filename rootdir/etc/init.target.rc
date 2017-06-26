@@ -547,10 +547,12 @@ service thermal-engine /system/bin/thermal-engine
    user root
    group radio system
 
-service time_daemon /system/bin/time_daemon
-   class late_start
-   user root
-   group root
+service timekeep /system/bin/timekeep restore
+    class late_start
+    user root
+    group root
+    oneshot
+    seclabel u:r:timekeep:s0
 
 service audiod /system/bin/audiod
    class late_start

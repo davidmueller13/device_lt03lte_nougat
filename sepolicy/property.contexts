@@ -1,0 +1,5 @@
+##########################
+# property service keys
+#
+#
+persist.sys.timeadjust                   u:object_r:timekeep_prop:s0
