@@ -176,11 +176,15 @@ PRODUCT_PACKAGES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     lockscreen.rot_override=true
     
+# sdcardfs
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.sys.sdcardfs=true
+    
 # Default Properties
-#ADDITIONAL_DEFAULT_PROPERTIES += \
-    #persist.service.adb.enable=1 \
-    #persist.service.debuggable=1 \
-    #ro.adb.secure=0
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    persist.service.adb.enable=1 \
+    persist.service.debuggable=1 \
+    ro.adb.secure=0
 
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
