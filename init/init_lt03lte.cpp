@@ -45,53 +45,53 @@ void init_target_properties()
 
     if (bootloader == "P605M") {
         /* lt03ltecmo */
-        property_set("ro.build.fingerprint", "samsung/lt03ltecmo/lt03lte:4.4.2/KOT49H/P605MUBUCNH1:user/release-keys");
-        property_set("ro.build.description", "lt03lteusc-user 4.4.2 KOT49H P605MUBUCNH1 release-keys");
-        property_set("ro.product.model", "SM-P605M");
-        property_set("ro.product.device", "lt03ltecmo");
-        property_set("ro.telephony.default_network", "9");
-        property_set("ro.telephony.ril.v3", "newDialCode");
-        property_set("telephony.lteOnGsmDevice", "1");
+        property_override("ro.build.fingerprint", "samsung/lt03ltecmo/lt03lte:4.4.2/KOT49H/P605MUBUCNH1:user/release-keys");
+        property_override("ro.build.description", "lt03lteusc-user 4.4.2 KOT49H P605MUBUCNH1 release-keys");
+        property_override("ro.product.model", "SM-P605M");
+        property_override("ro.product.device", "lt03ltecmo");
+        property_override("ro.telephony.default_network", "9");
+        property_override("ro.telephony.ril.v3", "newDialCode");
+        property_override("telephony.lteOnGsmDevice", "1");
     } else if (bootloader == "P605S") {
         /* lt03ltesks */
-        property_set("ro.build.fingerprint", "samsung/lt03ltesks/lt03lte:5.1.1/LMY47X/P605XXU1EOI5:user/release-keys");
-        property_set("ro.build.description", "lt03lteusc-user 5.1.1 LMY47X P605XXU1EOI5 release-keys");
-        property_set("ro.product.model", "SM-P605S");
-        property_set("ro.product.device", "lt03ltesks");
-        property_set("ro.telephony.default_network", "9");
-        property_set("ro.telephony.ril.v3", "newDialCode");
-        property_set("telephony.lteOnGsmDevice", "1");
+        property_override("ro.build.fingerprint", "samsung/lt03ltesks/lt03lte:5.1.1/LMY47X/P605XXU1EOI5:user/release-keys");
+        property_override("ro.build.description", "lt03lteusc-user 5.1.1 LMY47X P605XXU1EOI5 release-keys");
+        property_override("ro.product.model", "SM-P605S");
+        property_override("ro.product.device", "lt03ltesks");
+        property_override("ro.telephony.default_network", "9");
+        property_override("ro.telephony.ril.v3", "newDialCode");
+        property_override("telephony.lteOnGsmDevice", "1");
     } else if (bootloader == "P605V") {
         /* lt03ltevzw */
-        property_set("ro.build.fingerprint", "samsung/lt03ltevzw/lt03lte:5.1.1/LMY47X/P605VVRUDOH2:user/release-keys");
-        property_set("ro.build.description", "lt03ltevzw-user 5.1.1 LMY47X P605VVRUDOH2 release-keys");
-        property_set("ro.product.model", "SM-P605V");
-        property_set("ro.product.device", "lt03ltevzw");
-        property_set("ro.cdma.home.operator.alpha", "Verizon");
-        property_set("ro.cdma.home.operator.numeric", "311480");
-        property_set("ro.telephony.default_cdma_sub", "0"); // 0: RUIM/SIM  1: NV
-        property_set("ro.telephony.default_network", "10");
-        property_set("ro.telephony.ril.v3", "newDriverCallU,newDialCode");
-        property_set("telephony.lteOnCdmaDevice", "1");
+        property_override("ro.build.fingerprint", "samsung/lt03ltevzw/lt03lte:5.1.1/LMY47X/P605VVRUDOH2:user/release-keys");
+        property_override("ro.build.description", "lt03ltevzw-user 5.1.1 LMY47X P605VVRUDOH2 release-keys");
+        property_override("ro.product.model", "SM-P605V");
+        property_override("ro.product.device", "lt03ltevzw");
+        property_override("ro.cdma.home.operator.alpha", "Verizon");
+        property_override("ro.cdma.home.operator.numeric", "311480");
+        property_override("ro.telephony.default_cdma_sub", "0"); // 0: RUIM/SIM  1: NV
+        property_override("ro.telephony.default_network", "10");
+        property_override("ro.telephony.ril.v3", "newDriverCallU,newDialCode");
+        property_override("telephony.lteOnCdmaDevice", "1");
 
     } else if (bootloader == "P607T") {
         /* lt03ltetmo */
-        property_set("ro.build.fingerprint", "samsung/lt03ltetmo/lt03ltetmo:5.1.1/LMY47X/P607TUVUBOI2:user/release-keys");
-        property_set("ro.build.description", "lt03ltetmo-user 5.1.1 LMY47X P607TUVUBOI2 release-keys");
-        property_set("ro.product.model", "SM-P607T");
-        property_set("ro.product.device", "lt03ltetmo");
-        property_set("ro.telephony.default_network", "9");
-        property_set("ro.telephony.ril.v3", "newDialCode");
-        property_set("telephony.lteOnGsmDevice", "1");
+        property_override("ro.build.fingerprint", "samsung/lt03ltetmo/lt03ltetmo:5.1.1/LMY47X/P607TUVUBOI2:user/release-keys");
+        property_override("ro.build.description", "lt03ltetmo-user 5.1.1 LMY47X P607TUVUBOI2 release-keys");
+        property_override("ro.product.model", "SM-P607T");
+        property_override("ro.product.device", "lt03ltetmo");
+        property_override("ro.telephony.default_network", "9");
+        property_override("ro.telephony.ril.v3", "newDialCode");
+        property_override("telephony.lteOnGsmDevice", "1");
     } else {
         /* lt03ltexx */
-        property_set("ro.build.fingerprint", "samsung/lt03ltexx/lt03lte:4.4.2/KOT49H/P605XXUDOB1:user/release-keys");
-        property_set("ro.build.description", "lt03ltexx-user 4.4.2 KOT49H P605XXUDOB1 release-keys");
-        property_set("ro.product.model", "SM-P605");
-        property_set("ro.product.device", "lt03ltexx");
-        property_set("ro.telephony.default_network", "9");
-        property_set("ro.telephony.ril.v3", "newDialCode");
-        property_set("telephony.lteOnGsmDevice", "1");
+        property_override("ro.build.fingerprint", "samsung/lt03ltexx/lt03lte:4.4.2/KOT49H/P605XXUDOB1:user/release-keys");
+        property_override("ro.build.description", "lt03ltexx-user 4.4.2 KOT49H P605XXUDOB1 release-keys");
+        property_override("ro.product.model", "SM-P605");
+        property_override("ro.product.device", "lt03ltexx");
+        property_override("ro.telephony.default_network", "9");
+        property_override("ro.telephony.ril.v3", "newDialCode");
+        property_override("telephony.lteOnGsmDevice", "1");
     }
     std::string device = property_get("ro.product.device");
     ERROR("Found bootloader id %s setting build properties for %s device\n", bootloader.c_str(), device.c_str());
