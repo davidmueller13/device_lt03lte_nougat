@@ -64,6 +64,10 @@ PRODUCT_PACKAGES += \
     libboringssl-compat \
     libstlport
 
+# Doze
+PRODUCT_PACKAGES += \
+    SamsungDoze
+
 # Camera
 PRODUCT_PACKAGES += \
     camera.msm8974
