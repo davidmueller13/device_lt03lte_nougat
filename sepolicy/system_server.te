@@ -5,5 +5,5 @@ allow system_server sysfs_thermal:dir search;
 allow system_server sysfs_thermal:file { open read write };
 allow system_server efs_file:dir search;
 allow system_server sensors_efs_file:file { open read };
-allow system_server efs_file:file { read };
+allow system_server efs_file:file { open read };
 allow system_server wifi_efs_file:file { read write };
