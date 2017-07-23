@@ -42,17 +42,6 @@
 
 #define ISMATCH(a, b) (!strncmp((a), (b), PROP_VALUE_MAX))
 
-void property_override(char const prop[], char const value[])
-{
-    prop_info *pi;
-
-    pi = (prop_info*) __system_property_find(prop);
-    if (pi)
-        __system_property_update(pi, value, strlen(value));
-    else
-        __system_property_add(prop, strlen(prop), value, strlen(value));
-}
-
 void init_target_properties()
 {
     std::string bootloader = property_get("ro.bootloader");
