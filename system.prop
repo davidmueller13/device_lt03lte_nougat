@@ -69,3 +69,6 @@ qcom.bluetooth.soc=rome
 # Media
 media.stagefright.legacyencoder=true
 media.stagefright.less-secure=true
+
+# Tethering
+net.tethering.noprovisioning=true
