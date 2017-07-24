@@ -272,6 +272,9 @@ on boot
     chown system radio /sys/class/sec/sec_epen/epen_checksum_result
     chown system radio /sys/class/sec/sec_epen/epen_saving_mode
     chown system radio /sys/class/sec/sec_epen/boost_level
+    
+    write /sys/module/wacom_i2c_func/parameters/wacom_booster_enabled 0
+    write /sys/devices/virtual/sec/sec_epen/epen_saving_mode 1
 
     # permissions for Input Device (Touch)
     chmod 0660 /sys/class/input/input2/enabled
