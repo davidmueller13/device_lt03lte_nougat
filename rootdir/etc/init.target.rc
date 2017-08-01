@@ -505,7 +505,7 @@ on boot
 
 # Permissions for gpio_keys
     chown system system /sys/class/sec/sec_key/wakeup_keys
-    write /sys/class/sec/sec_key/wakeup_keys 116,172
+    write /sys/class/sec/sec_key/wakeup_keys 114,115,116,172
 
     # Vibrator
     chmod 0644 /sys/class/timed_output/vibrator/pwm_value
