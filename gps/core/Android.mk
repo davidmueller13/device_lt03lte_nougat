@@ -17,7 +17,8 @@ LOCAL_SHARED_LIBRARIES := \
     libutils \
     libcutils \
     libgps.utils \
-    libdl
+    libdl \
+    liblog
 
 LOCAL_SRC_FILES += \
     MsgTask.cpp \
@@ -50,7 +51,7 @@ LOCAL_COPY_HEADERS:= \
 
 LOCAL_PRELINK_MODULE := false
 
-LOCAL_CLANG := false
+#LOCAL_CLANG := false
 
 include $(BUILD_SHARED_LIBRARY)
 
