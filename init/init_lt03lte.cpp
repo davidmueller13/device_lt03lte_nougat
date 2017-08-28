@@ -33,6 +33,8 @@
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <sys/_system_properties.h>
 
+#include <android-base/properties.h>
+
 #include "vendor_init.h"
 #include "property_service.h"
 #include "log.h"
@@ -42,9 +44,11 @@
 
 #define ISMATCH(a, b) (!strncmp((a), (b), PROP_VALUE_MAX))
 
+using android::base::GetProperty;
+
 void init_target_properties()
 {
-    std::string bootloader = property_get("ro.bootloader");
+    std::string bootloader = GetProperty("ro.bootloader", "");
 
     if (bootloader == "P605M") {
         /* lt03ltecmo */
@@ -96,6 +100,6 @@ void init_target_properties()
         property_override("ro.telephony.ril.v3", "newDialCode");
         property_override("telephony.lteOnGsmDevice", "1");
     }
-    std::string device = property_get("ro.product.device");
-    ERROR("Found bootloader id %s setting build properties for %s device\n", bootloader.c_str(), device.c_str());
+    std::string device = GetProperty("ro.product.device", "");
+    /* ERROR("Found bootloader id %s setting build properties for %s device\n", bootloader.c_str(), device.c_str()); */
 }
