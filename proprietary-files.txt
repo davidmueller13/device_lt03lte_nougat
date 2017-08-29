@@ -244,6 +244,9 @@ lib/hw/sensors.msm8974.so
 lib/libak8963c.so
 vendor/lib/libsensor1.so
 
+# STLport
+vendor/lib/libstlport.so
+
 # Thermal
 bin/thermal-engine
 vendor/lib/libthermalclient.so
