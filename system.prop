@@ -75,3 +75,6 @@ net.tethering.noprovisioning=true
 
 # Display
 debug.hwui.use_buffer_age=false
+
+# OMX properties
+persist.media.treble_omx=false
