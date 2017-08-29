@@ -72,3 +72,6 @@ media.stagefright.less-secure=true
 
 # Tethering
 net.tethering.noprovisioning=true
+
+# Display
+debug.hwui.use_buffer_age=false
