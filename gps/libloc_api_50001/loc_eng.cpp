@@ -790,8 +790,7 @@ void LocEngReportPosition::proc() const {
                         LOC_POS_TECH_MASK_HYBRID) &
                        mTechMask)) ||
                      (LOC_SESS_INTERMEDIATE == locEng->intermediateFix &&
-                      !((mLocation.gpsLocation.flags &
-                         GPS_LOCATION_HAS_ACCURACY) &&
+                      !((mLocation.gpsLocation.flags) &&
                         (gps_conf.ACCURACY_THRES != 0) &&
                         (mLocation.gpsLocation.accuracy >
                          gps_conf.ACCURACY_THRES)))) {
