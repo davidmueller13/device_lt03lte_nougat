@@ -67,8 +67,7 @@ PRODUCT_PACKAGES += \
 
 # BoringSSL compatability wrapper
 PRODUCT_PACKAGES += \
-    libboringssl-compat \
-    libstlport
+    libboringssl-compat
 
 # DRM
 PRODUCT_PACKAGES += \
