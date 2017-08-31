@@ -16,6 +16,9 @@
 # Display
 /sys/devices/virtual/lcd/panel/power_reduce             u:object_r:sysfs_display:s0
 
+# GPU
+/sys/devices/fdb00000.qcom,kgsl-3d0/kgsl/kgsl-3d0(/.*)? u:object_r:sysfs_gpu:s0
+
 # RIL
 /efs/FactoryApp(/.*)?                                   u:object_r:efs_file:s0
 /efs/imei                                               u:object_r:efs_file:s0

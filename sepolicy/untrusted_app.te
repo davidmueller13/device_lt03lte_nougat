@@ -20,3 +20,7 @@ allow untrusted_app cgroup:dir read;
 allow untrusted_app configfs:dir read;
 allow untrusted_app debugfs:dir read;
 allow untrusted_app device:dir read;
+
+# gpu
+allow untrusted_app sysfs_gpu:dir search;
+allow untrusted_app sysfs_gpu:file r_file_perms;

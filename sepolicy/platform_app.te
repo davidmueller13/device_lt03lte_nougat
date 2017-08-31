@@ -4,4 +4,6 @@ allow platform_app fuseblk:dir { search };
 allow platform_app fuseblk:file { read write };
 allow platform_app fuseblk:file { open };
 allow platform_app fuseblk:file { getattr };
+allow platform_app sysfs_gpu:dir search;
+allow platform_app sysfs_gpu:file rw_file_perms;
 
