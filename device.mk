@@ -166,6 +166,10 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf
 
+# HIDL
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/manifest.xml:system/vendor/manifest.xml
+
 # Allow lockscreen rotation
 PRODUCT_PROPERTY_OVERRIDES += \
     lockscreen.rot_override=true
