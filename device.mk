@@ -166,6 +166,12 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf
 
+# Vendor seccomp policy files for media components:
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/seccomp/mediaextractor.policy:/system/vendor/etc/seccomp_policy/mediaextractor.policy \
+    $(LOCAL_PATH)/seccomp/mediacodec.policy:/system/vendor/etc/seccomp_policy/mediacodec.policy
+
+
 # HIDL
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/manifest.xml:system/vendor/manifest.xml
