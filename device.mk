@@ -109,8 +109,8 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/idc/Synaptics_RMI4_TouchPad_Sensor.idc:system/usr/idc/Synaptics_RMI4_TouchPad_Sensor.idc
 
 # IR
-PRODUCT_PACKAGES += \
-    consumerir.msm8974
+#PRODUCT_PACKAGES += \
+    #consumerir.msm8974
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
