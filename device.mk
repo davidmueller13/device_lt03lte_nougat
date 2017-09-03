@@ -66,8 +66,8 @@ PRODUCT_PACKAGES += \
     libbt-vendor
 
 # BoringSSL compatability wrapper
-#PRODUCT_PACKAGES += \
-#    libboringssl-compat
+PRODUCT_PACKAGES += \
+    libboringssl-compat
 
 # Doze
 #PRODUCT_PACKAGES += \
