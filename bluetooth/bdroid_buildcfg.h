@@ -20,10 +20,7 @@
 
 #define BTM_DEF_LOCAL_NAME   "Samsung Galaxy Note 10.1 (2014)"
 
-#define BLE_VND_INCLUDED TRUE
+//#define BLE_VND_INCLUDED TRUE
 #define BTM_WBS_INCLUDED TRUE
-
-/* Defined if the kernel does not have support for CLOCK_BOOTTIME_ALARM */
-#define KERNEL_MISSING_CLOCK_BOOTTIME_ALARM TRUE
 
 #endif
