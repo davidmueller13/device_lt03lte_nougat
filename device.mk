@@ -74,8 +74,8 @@ PRODUCT_PACKAGES += \
     #SamsungDoze
 
 # Camera
-#PRODUCT_PACKAGES += \
-#    camera.msm8974 \
+PRODUCT_PACKAGES += \
+    camera.msm8974 \
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
