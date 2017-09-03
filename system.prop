@@ -78,3 +78,5 @@ debug.hwui.use_buffer_age=false
 
 # OMX properties
 persist.media.treble_omx=false
+
+config.disable_consumerir=true
