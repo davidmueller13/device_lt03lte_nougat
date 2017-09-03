@@ -193,7 +193,7 @@ v/ppp                  0660   radio      vpn
 /dev/block/mmcblk0p11     0660   system     system
 
 # Bluetooth
-/dev/ttyHS0               0660   bluetooth  net_bt_stack
+/dev/ttyHS0               0660   bluetooth  bluetooth
 /dev/ttyHS2               0660   bluetooth  bluetooth
 
 # sysfs properties
