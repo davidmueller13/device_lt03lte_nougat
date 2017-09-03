@@ -193,7 +193,6 @@ vendor/lib/libSHIMDivxDrm.so
 
 # Perf
 bin/hvdcp
-bin/mpdecision
 bin/perfd
 vendor/lib/libqti-perfd-client.so
 
