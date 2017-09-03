@@ -134,8 +134,8 @@ PRODUCT_PACKAGES += \
     libxml2
 
 # Radio
-#PRODUCT_PACKAGES += \
-   # libril_shim
+PRODUCT_PACKAGES += \
+    libril_shim
 
 # Ramdisk
 PRODUCT_PACKAGES += \
