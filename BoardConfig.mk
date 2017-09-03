@@ -101,9 +101,9 @@ TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
 TARGET_RELEASETOOLS_EXTENSIONS := $(LOCAL_PATH)/releasetools
 
 # RIL
-BOARD_GLOBAL_CFLAGS += -DUSE_RIL_VERSION_11
-BOARD_GLOBAL_CPPFLAGS += -DUSE_RIL_VERSION_11
-BOARD_RIL_CLASS := ../../../device/samsung/lt03lte/ril
+#BOARD_GLOBAL_CFLAGS += -DUSE_RIL_VERSION_11
+#BOARD_GLOBAL_CPPFLAGS += -DUSE_RIL_VERSION_11
+#BOARD_RIL_CLASS := ../../../device/samsung/lt03lte/ril
 
 # SELinux
 #-include device/qcom/sepolicy/sepolicy.mk
