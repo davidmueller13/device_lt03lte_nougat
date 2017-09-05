@@ -458,7 +458,7 @@ service netmgrd /system/bin/netmgrd
     user root
 	group root wifi wakelock radio inet
     
-service ril-daemon /system/vendor/bin/hw/rild
+service ril-daemon /system/bin/rild
     class main
 	user radio
     group radio cache inet misc audio log system wakelock
