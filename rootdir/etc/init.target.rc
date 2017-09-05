@@ -538,6 +538,12 @@ service qseecomd /system/bin/qseecomd
    user root
    group root
 
+service mpdecision /system/bin/mpdecision --avg_comp
+   class main
+   user root
+   group root readproc
+   disabled
+
 service thermal-engine /system/bin/thermal-engine
    class core
    user root
