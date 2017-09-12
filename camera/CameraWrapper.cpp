@@ -266,8 +266,8 @@ static void camera_set_callbacks(struct camera_device *device,
     ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
             (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
 
-	UserNotifyCb = notify_cb;  
-	UserDataCb = data_cb;
+	gUserNotifyCb = notify_cb;  
+	gUserDataCb = data_cb;
     gUserDataCbTimestamp = data_cb_timestamp;
     gUserGetMemory = get_memory;
     gUserCameraDevice = user;
