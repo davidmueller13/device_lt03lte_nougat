@@ -36,6 +36,14 @@
 
 using namespace android;
 
+
+static const char KEY_DIS[] = "dis";
+static const char DIS_DISABLE[] = "disable";
+static const char KEY_ZSL[] = "zsl";
+static const char ZSL_OFF[] = "off";
+static const char ZSL_ON[] = "on";
+
+
 static Mutex gCameraWrapperLock;
 static camera_module_t *gVendorModule = 0;
 
@@ -197,10 +205,10 @@ static char *camera_fixup_setparams(int id, const char *settings)
 
     if (!isTorch && !wasTorch) {
         if (isVideo) {
-            params.set(CameraParameters::KEY_DIS, CameraParameters::DIS_DISABLE);
-            params.set(CameraParameters::KEY_ZSL, CameraParameters::ZSL_OFF);
+            params.set(KEY_DIS, DIS_DISABLE);
+            params.set(KEY_ZSL, ZSL_OFF);
         } else {
-            params.set(CameraParameters::KEY_ZSL, CameraParameters::ZSL_ON);
+            params.set(KEY_ZSL, ZSL_ON);
         }
     }
 
