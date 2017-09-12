@@ -184,10 +184,10 @@ PRODUCT_COPY_FILES += \
 # Allow lockscreen rotation
 PRODUCT_PROPERTY_OVERRIDES += \
     lockscreen.rot_override=true
-    
-# sdcardfs
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.sys.sdcardfs=true
+   
+# Camera
+ PRODUCT_PROPERTY_OVERRIDES += \
+	camera.disable_treble=true   
     
 # Default Properties
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
