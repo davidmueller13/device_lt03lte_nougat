@@ -51,7 +51,7 @@ LOCAL_COPY_HEADERS:= \
 
 LOCAL_PRELINK_MODULE := false
 
-#LOCAL_CLANG := false
+LOCAL_CLANG := false
 
 include $(BUILD_SHARED_LIBRARY)
 
