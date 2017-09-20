@@ -19,30 +19,41 @@ package com.android.internal.telephony;
 import static com.android.internal.telephony.RILConstants.*;
 
 import android.content.Context;
-import android.telephony.Rlog;
 import android.media.AudioManager;
 import android.os.AsyncResult;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Parcel;
+import android.telephony.SmsMessage;
 import android.os.SystemProperties;
-import android.telephony.ModemActivityInfo;
+import android.os.SystemClock;
+import android.provider.Settings;
+import android.text.TextUtils;
+import android.telephony.Rlog;
 
+import android.telephony.SignalStrength;
 import android.telephony.PhoneNumberUtils;
+import com.android.internal.telephony.RILConstants;
+import com.android.internal.telephony.gsm.SmsBroadcastConfigInfo;
 import com.android.internal.telephony.cdma.CdmaInformationRecords;
 import com.android.internal.telephony.cdma.CdmaInformationRecords.CdmaSignalInfoRec;
 import com.android.internal.telephony.cdma.SignalToneUtil;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+
 import com.android.internal.telephony.uicc.IccCardApplicationStatus;
 import com.android.internal.telephony.uicc.IccCardStatus;
 import com.android.internal.telephony.uicc.IccUtils;
-import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Qualcomm RIL for the Samsung msm8974 family.
  * {@hide}
  */
-public class LtlteRIL extends RIL {
+public class LtlteRIL extends RIL implements CommandsInterface {
 
     private AudioManager mAudioManager;
 
@@ -51,7 +62,6 @@ public class LtlteRIL extends RIL {
     protected boolean isGSM = false;
 
     public static final long SEND_SMS_TIMEOUT_IN_MS = 30000;
-    private static final int RIL_REQUEST_DIAL_EMERGENCY = 10016;
 
     public LtlteRIL(Context context, int preferredNetworkType, int cdmaSubscription) {
         this(context, preferredNetworkType, cdmaSubscription, null);
@@ -132,6 +142,83 @@ public class LtlteRIL extends RIL {
             cardStatus.mApplications[cardStatus.mImsSubscriptionAppIndex] = appStatus3;
         }
         return cardStatus;
+    }
+
+    private void
+    fixNitz(Parcel p) {
+        int dataPosition = p.dataPosition();
+        String nitz = p.readString();
+        long nitzReceiveTime = p.readLong();
+
+        String[] nitzParts = nitz.split(",");
+        if (nitzParts.length >= 4) {
+            // 0=date, 1=time+zone, 2=dst, 3(+)=garbage that confuses ServiceStateTracker
+            nitz = nitzParts[0] + "," + nitzParts[1] + "," + nitzParts[2];
+            p.setDataPosition(dataPosition);
+            p.writeString(nitz);
+            p.writeLong(nitzReceiveTime);
+            // The string is shorter now, drop the extra bytes
+            p.setDataSize(p.dataPosition());
+        }
+    }
+
+    @Override
+    public void
+    sendCdmaSms(byte[] pdu, Message result) {
+        smsLock();
+        super.sendCdmaSms(pdu, result);
+    }
+
+    @Override
+    public void
+        sendSMS (String smscPDU, String pdu, Message result) {
+        smsLock();
+        super.sendSMS(smscPDU, pdu, result);
+    }
+
+    private void smsLock(){
+        // Do not send a new SMS until the response for the previous SMS has been received
+        //   * for the error case where the response never comes back, time out after
+        //     30 seconds and just try the next SEND_SMS
+        synchronized (mSMSLock) {
+            long timeoutTime  = SystemClock.elapsedRealtime() + SEND_SMS_TIMEOUT_IN_MS;
+            long waitTimeLeft = SEND_SMS_TIMEOUT_IN_MS;
+            while (mIsSendingSMS && (waitTimeLeft > 0)) {
+                Rlog.d(RILJ_LOG_TAG, "sendSMS() waiting for response of previous SEND_SMS");
+                try {
+                    mSMSLock.wait(waitTimeLeft);
+                } catch (InterruptedException ex) {
+                    // ignore the interrupt and rewait for the remainder
+                }
+                waitTimeLeft = timeoutTime - SystemClock.elapsedRealtime();
+            }
+            if (waitTimeLeft <= 0) {
+                Rlog.e(RILJ_LOG_TAG, "sendSms() timed out waiting for response of previous CDMA_SEND_SMS");
+            }
+            mIsSendingSMS = true;
+        }
+
+    }
+
+    @Override
+    protected Object responseSignalStrength(Parcel p) {
+        int numInts = 12;
+        int response[];
+
+        // Get raw data
+        response = new int[numInts];
+        for (int i = 0; i < numInts; i++) {
+            response[i] = p.readInt();
+        }
+        //gsm
+        response[0] &= 0xff;
+        //cdma
+        response[2] %= 256;
+        response[4] %= 256;
+        response[7] &= 0xff;
+
+        return new SignalStrength(response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7], response[8], response[9], response[10], response[11], true);
+
     }
 
     @Override
@@ -222,6 +309,79 @@ public class LtlteRIL extends RIL {
     }
 
     @Override
+    protected void
+    processUnsolicited (Parcel p, int type) {
+        Object ret;
+        int dataPosition = p.dataPosition(); // save off position within the Parcel
+        int response = p.readInt();
+
+        switch(response) {
+            case RIL_UNSOL_NITZ_TIME_RECEIVED:
+                fixNitz(p);
+                p.setDataPosition(dataPosition);
+                super.processUnsolicited(p, type);
+                break;
+            case RIL_UNSOL_RIL_CONNECTED:
+                ret = responseInts(p);
+                setRadioPower(false, null);
+                setPreferredNetworkType(mPreferredNetworkType, null);
+                setCdmaSubscriptionSource(mCdmaSubscription, null);
+                if(mRilVersion >= 8)
+                    setCellInfoListRate(Integer.MAX_VALUE, null);
+                notifyRegistrantsRilConnectionChanged(((int[])ret)[0]);
+                break;
+            // SAMSUNG STATES
+            case 11010: // RIL_UNSOL_AM:
+                ret = responseString(p);
+                String amString = (String) ret;
+                Rlog.d(RILJ_LOG_TAG, "Executing AM: " + amString);
+
+                try {
+                    Runtime.getRuntime().exec("am " + amString);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Rlog.e(RILJ_LOG_TAG, "am " + amString + " could not be executed.");
+                }
+                break;
+            case 11021: // RIL_UNSOL_RESPONSE_HANDOVER:
+                ret = responseVoid(p);
+                break;
+            case 1036:
+                ret = responseVoid(p);
+                break;
+            case 11017: // RIL_UNSOL_WB_AMR_STATE:
+                ret = responseInts(p);
+                setWbAmr(((int[])ret)[0]);
+                break;
+            case 11055: // RIL_UNSOL_ON_SS:
+                p.setDataPosition(dataPosition);
+                p.writeInt(RIL_UNSOL_ON_SS);
+                // Do not break
+            default:
+                // Rewind the Parcel
+                p.setDataPosition(dataPosition);
+
+                // Forward responses that we are not overriding to the super class
+                super.processUnsolicited(p, type);
+                return;
+        }
+
+    }
+
+    @Override
+    public void
+    acceptCall (Message result) {
+        RILRequest rr = RILRequest.obtain(RIL_REQUEST_ANSWER, result);
+
+        rr.mParcel.writeInt(1);
+        rr.mParcel.writeInt(0);
+
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
+
+        send(rr);
+    }
+
+    @Override
     protected RILRequest
     processSolicited (Parcel p, int type) {
         int serial, error;
@@ -237,7 +397,9 @@ public class LtlteRIL extends RIL {
                 if (error == 0 || p.dataAvail() > 0) {
                     try {switch (tr.mRequest) {
                             /* Get those we're interested in */
+                        case RIL_REQUEST_VOICE_REGISTRATION_STATE:
                         case RIL_REQUEST_DATA_REGISTRATION_STATE:
+                        case RIL_REQUEST_OPERATOR:
                             rr = tr;
                             break;
                     }} catch (Throwable thr) {
@@ -264,7 +426,9 @@ public class LtlteRIL extends RIL {
         Object ret = null;
         if (error == 0 || p.dataAvail() > 0) {
             switch (rr.mRequest) {
-                case RIL_REQUEST_DATA_REGISTRATION_STATE: ret = responseDataRegistrationState(p); break;
+                case RIL_REQUEST_VOICE_REGISTRATION_STATE: ret = responseVoiceDataRegistrationState(p, false); break;
+                case RIL_REQUEST_DATA_REGISTRATION_STATE: ret = responseVoiceDataRegistrationState(p, true); break;
+                case RIL_REQUEST_OPERATOR: ret =  operatorCheck(p); break;
                 default:
                     throw new RuntimeException("Unrecognized solicited response: " + rr.mRequest);
             }
@@ -280,117 +444,43 @@ public class LtlteRIL extends RIL {
     }
 
     private Object
-    responseDataRegistrationState(Parcel p) {
+    operatorCheck(Parcel p) {
         String response[] = (String[])responseStrings(p);
-        /* DANGER WILL ROBINSON
-         * In some cases from Vodaphone we are receiving a RAT of 102
-         * while in tunnels of the metro. Lets Assume that if we
-         * receive 102 we actually want a RAT of 2 for EDGE service */
-        if (response.length > 4 &&
-            response[0].equals("1") &&
-            response[3].equals("102")) {
-            response[3] = "2";
+        for(int i=0; i<2; i++){
+            if (response[i]!= null){
+                response[i] = Operators.operatorReplace(response[i]);
+            }
         }
         return response;
     }
 
-    private void
-    fixNitz(Parcel p) {
-        int dataPosition = p.dataPosition();
-        String nitz = p.readString();
-        long nitzReceiveTime = p.readLong();
-
-        String[] nitzParts = nitz.split(",");
-        if (nitzParts.length >= 4) {
-            // 0=date, 1=time+zone, 2=dst, 3(+)=garbage that confuses ServiceStateTracker
-            nitz = nitzParts[0] + "," + nitzParts[1] + "," + nitzParts[2];
-            p.setDataPosition(dataPosition);
-            p.writeString(nitz);
-            p.writeLong(nitzReceiveTime);
-            // The string is shorter now, drop the extra bytes
-            p.setDataSize(p.dataPosition());
+    private Object
+    responseVoiceDataRegistrationState(Parcel p, boolean data) {
+        String response[] = (String[])responseStrings(p);
+        if (isGSM){
+            if (data &&
+                response.length > 4 &&
+                response[0].equals("1") &&
+                response[3].equals("102")) {
+                response[3] = "2";
+            }
+            return response;
         }
-    }
-
-    @Override
-    protected void
-    processUnsolicited (Parcel p, int type) {
-        Object ret;
-        int dataPosition = p.dataPosition(); // save off position within the Parcel
-        int response = p.readInt();
-
-        switch(response) {
-            case RIL_UNSOL_NITZ_TIME_RECEIVED:
-                fixNitz(p);
-                p.setDataPosition(dataPosition);
-                super.processUnsolicited(p, type);
-                break;
-            default:
-                // Rewind the Parcel
-                p.setDataPosition(dataPosition);
-
-                // Forward responses that we are not overriding to the super class
-                super.processUnsolicited(p, type);
-                return;
+        if (response.length>=10){
+            for(int i=6; i<=9; i++){
+                if (response[i]== null){
+                    response[i]=Integer.toString(Integer.MAX_VALUE);
+                } else {
+                    try {
+                        Integer.parseInt(response[i]);
+                    } catch(NumberFormatException e) {
+                        response[i]=Integer.toString(Integer.parseInt(response[i],16));
+                    }
+                }
+            }
         }
-    }
 
-    private void
-    dialEmergencyCall(String address, int clirMode, Message result) {
-        RILRequest rr;
-
-        rr = RILRequest.obtain(RIL_REQUEST_DIAL_EMERGENCY, result);
-        rr.mParcel.writeString(address);
-        rr.mParcel.writeInt(clirMode);
-        rr.mParcel.writeInt(0);        // CallDetails.call_type
-        rr.mParcel.writeInt(3);        // CallDetails.call_domain
-        rr.mParcel.writeString("");    // CallDetails.getCsvFromExtra
-        rr.mParcel.writeInt(0);        // Unknown
-
-        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
-
-        send(rr);
-    }
-
-    @Override
-    public void getRadioCapability(Message response) {
-        riljLog("getRadioCapability: returning static radio capability");
-        if (response != null) {
-            Object ret = makeStaticRadioCapability();
-            AsyncResult.forMessage(response, ret, null);
-            response.sendToTarget();
-        }
-    }
-
-    protected Object
-    responseFailCause(Parcel p) {
-        int numInts;
-        int response[];
-
-        numInts = p.readInt();
-        response = new int[numInts];
-        for (int i = 0 ; i < numInts ; i++) {
-            response[i] = p.readInt();
-        }
-        LastCallFailCause failCause = new LastCallFailCause();
-        failCause.causeCode = response[0];
-        if (p.dataAvail() > 0) {
-          failCause.vendorCause = p.readString();
-        }
-        return failCause;
-    }
-
-    // This call causes ril to crash the socket, stopping further communication
-    @Override
-    public void
-    getHardwareConfig (Message result) {
-        riljLog("getHardwareConfig: not supported");
-        if (result != null) {
-            CommandException ex = new CommandException(
-                CommandException.Error.REQUEST_NOT_SUPPORTED);
-            AsyncResult.forMessage(result, null, ex);
-            result.sendToTarget();
-        }
+        return response;
     }
 
     /**
@@ -477,4 +567,115 @@ public class LtlteRIL extends RIL {
         return super.responseSMS(p);
     }
 
+    @Override
+    public void
+    dial(String address, int clirMode, UUSInfo uusInfo, Message result) {
+        RILRequest rr = RILRequest.obtain(RIL_REQUEST_DIAL, result);
+
+        rr.mParcel.writeString(address);
+        rr.mParcel.writeInt(clirMode);
+        rr.mParcel.writeInt(0);     // CallDetails.call_type
+        rr.mParcel.writeInt(1);     // CallDetails.call_domain
+        rr.mParcel.writeString(""); // CallDetails.getCsvFromExtras
+
+        if (uusInfo == null) {
+            rr.mParcel.writeInt(0); // UUS information is absent
+        } else {
+            rr.mParcel.writeInt(1); // UUS information is present
+            rr.mParcel.writeInt(uusInfo.getType());
+            rr.mParcel.writeInt(uusInfo.getDcs());
+            rr.mParcel.writeByteArray(uusInfo.getUserData());
+        }
+
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
+
+        send(rr);
+    }
+
+    //this method is used in the search network functionality.
+    // in mobile network setting-> network operators
+    @Override
+    protected Object
+    responseOperatorInfos(Parcel p) {
+        String strings[] = (String [])responseStrings(p);
+        ArrayList<OperatorInfo> ret;
+
+        if (strings.length % mQANElements != 0) {
+            throw new RuntimeException(
+                                       "RIL_REQUEST_QUERY_AVAILABLE_NETWORKS: invalid response. Got "
+                                       + strings.length + " strings, expected multiple of " + mQANElements);
+        }
+
+        ret = new ArrayList<OperatorInfo>(strings.length / mQANElements);
+        Operators init = null;
+        if (strings.length != 0) {
+            init = new Operators();
+        }
+        for (int i = 0 ; i < strings.length ; i += mQANElements) {
+            String temp = init.unOptimizedOperatorReplace(strings[i+0]);
+            ret.add (
+                     new OperatorInfo(
+                                      temp, //operatorAlphaLong
+                                      temp,//operatorAlphaShort
+                                      strings[i+2],//operatorNumeric
+                                      strings[i+3]));//state
+        }
+
+        return ret;
+    }
+
+    @Override
+    public void getImsRegistrationState(Message result) {
+        if(mRilVersion >= 8)
+            super.getImsRegistrationState(result);
+        else {
+            if (result != null) {
+                CommandException ex = new CommandException(
+                    CommandException.Error.REQUEST_NOT_SUPPORTED);
+                AsyncResult.forMessage(result, null, ex);
+                result.sendToTarget();
+            }
+        }
+    }
+
+    // This call causes ril to crash the socket, stopping further communication
+    @Override
+    public void
+    getHardwareConfig (Message result) {
+        riljLog("Ignoring call to 'getHardwareConfig'");
+        if (result != null) {
+            CommandException ex = new CommandException(
+                CommandException.Error.REQUEST_NOT_SUPPORTED);
+            AsyncResult.forMessage(result, null, ex);
+            result.sendToTarget();
+        }
+    }
+
+    @Override
+    public void getRadioCapability(Message response) {
+        riljLog("getRadioCapability: returning static radio capability");
+        if (response != null) {
+            Object ret = makeStaticRadioCapability();
+            AsyncResult.forMessage(response, ret, null);
+            response.sendToTarget();
+        }
+    }
+
+    protected Object
+    responseFailCause(Parcel p) {
+        int numInts;
+        int response[];
+
+        numInts = p.readInt();
+        response = new int[numInts];
+        for (int i = 0 ; i < numInts ; i++) {
+            response[i] = p.readInt();
+        }
+        LastCallFailCause failCause = new LastCallFailCause();
+        failCause.causeCode = response[0];
+        if (p.dataAvail() > 0) {
+          failCause.vendorCause = p.readString();
+        }
+        return failCause;
+    }
 }
