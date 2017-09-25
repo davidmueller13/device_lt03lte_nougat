@@ -289,8 +289,6 @@ on post-fs-data
     mkdir /data/container 0770 system system
     chown system system /data/container
 
-    mkdir /data/misc/bluetooth 0770 bluetooth bluetooth
-
     # Create the directories used by the Wireless subsystem
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
@@ -444,7 +442,7 @@ on property:ro.debuggable=1
 # QMUX must be in multiple groups to support external process connections
 service qmuxd /system/bin/qmuxd
     class main
-    user root
+    user radio
     group radio audio bluetooth gps diag wakelock log
 
 service sensors /system/bin/sensors.qcom
