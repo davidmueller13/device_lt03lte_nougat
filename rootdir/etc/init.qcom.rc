@@ -133,6 +133,8 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
+	mkdir /persist/bluetooth 0770 bluetooth bluetooth
+
     #Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
 
@@ -390,8 +392,8 @@ on post-fs-data
     mkdir /data/fota 0771
     chown system system /data/fota
 
-    # Create /data/time folder for time-services
-    mkdir /data/time 0700 system system
+    # Create /data/vendor/time folder for time-services
+    mkdir /data/vendor/time 0700 system system
     mkdir /data/system/time 0700 system system
 
     mkdir /data/audio/ 0770 media audio
@@ -413,12 +415,12 @@ on post-fs-data
     chmod 0640 /efs/gyro_cal_data
     restorecon /efs/gyro_cal_data
 
-service irsc_util /system/bin/irsc_util "/etc/sec_config"
+service irsc_util /system/vendor/bin/irsc_util "/etc/sec_config"
     class main
     user root
     oneshot
 
-service rmt_storage /system/bin/rmt_storage
+service rmt_storage /system/vendor/bin/rmt_storage
     class core
     user root
     group system wakelock
@@ -456,13 +458,10 @@ service netmgrd /system/bin/netmgrd
     user root
 	group root wifi wakelock radio inet
     
-service ril-daemon /vendor/bin/hw/rild
+service ril-daemon /system/vendor/bin/hw/rild
     class main
-    socket rild stream 660 root radio
-    socket sap_uim_socket1 stream 660 bluetooth bluetooth
-    socket rild-debug stream 660 radio system
-    user root
-    group radio cache inet misc audio log readproc wakelock diag oem_2901
+    user radio
+    group radio cache inet misc audio log readproc wakelock diag
     capabilities BLOCK_SUSPEND NET_ADMIN NET_RAW
 
 # Adjust socket buffer to enlarge TCP receive window for high bandwidth
