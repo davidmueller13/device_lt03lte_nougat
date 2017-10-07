@@ -37,7 +37,8 @@ PRODUCT_PACKAGES += \
 
 # GPS HIDL
 PRODUCT_PACKAGES += \
-    android.hardware.gnss@1.0-impl
+    android.hardware.gnss@1.0-impl \
+    android.hardware.gnss@1.0-service
 
 # IR HIDL
 PRODUCT_PACKAGES += \
@@ -54,6 +55,12 @@ PRODUCT_PACKAGES += \
 # NFC HIDL interfaces
 PRODUCT_PACKAGES += \
     android.hardware.nfc@1.0-impl
+
+# Radio
+PRODUCT_PACKAGES += \
+    android.hardware.radio@1.0 \
+    android.hardware.broadcastradio@1.0-impl \
+    android.hardware.radio.deprecated@1.0
 
 # Sensors HIDL
 PRODUCT_PACKAGES += \
