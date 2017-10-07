@@ -78,6 +78,7 @@ on post-fs-data
     mkdir /tombstones/mdm 0771 system system
 
     # create directory for ril data
+    mkdir /data/vendor/radio 0770 system radio
     mkdir /data/misc/radio 0775 radio radio
     mkdir /data/misc/radio/hatp 0775 radio system
 
@@ -528,12 +529,12 @@ on property:persist.usb.chgdisabled=1
     write /sys/class/power_supply/battery/charging_enabled 0
 
 #start camera server as daemon
-service qcamerasvr /system/bin/mm-qcamera-daemon
+service qcamerasvr /system/vendor/bin/mm-qcamera-daemon
     class main
     user camera
     group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
 
-service qseecomd /system/bin/qseecomd
+service qseecomd /system/vendor/vbin/qseecomd
    class core
    user root
    group root
@@ -543,7 +544,7 @@ service thermal-engine /system/bin/thermal-engine
    user root
    group radio system
 
-service time_daemon /system/bin/time_daemon
+service time_daemon /system/vendor/bin/time_daemon
    class late_start
    user root
    group root
