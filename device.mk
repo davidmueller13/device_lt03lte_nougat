@@ -81,6 +81,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     com.cyanogenmod.keyhandler
 
+# GPS
+PRODUCT_PACKAGES += \
+    android.hardware.gnss@1.0-impl
+    
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
