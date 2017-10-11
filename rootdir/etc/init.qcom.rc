@@ -416,6 +416,9 @@ on post-fs-data
     chmod 0640 /efs/gyro_cal_data
     restorecon /efs/gyro_cal_data
 
+# Set permissions for firmware path control
+    chown wifi wifi /sys/module/dhd/parameters/firmware_path
+
 service irsc_util /system/bin/irsc_util "/etc/sec_config"
     class main
     user root
