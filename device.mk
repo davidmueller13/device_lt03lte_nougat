@@ -130,7 +130,10 @@ PRODUCT_PACKAGES += \
 
 # Radio
 PRODUCT_PACKAGES += \
-    libril_shim
+	libreference-ril \
+	libsecnativefeature \
+    libsecril-client \
+    libsecril-client-sap \
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -159,10 +162,6 @@ PRODUCT_PACKAGES += \
     libwpa_client \
     wpa_supplicant \
     wpa_supplicant.conf
-
-# DRM
-PRODUCT_PACKAGES += \
-	widevine_shim
 
 # Allow lockscreen rotation
 PRODUCT_PROPERTY_OVERRIDES += \

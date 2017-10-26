@@ -226,13 +226,8 @@ bin/qcks
 bin/qmuxd
 bin/radish
 bin/rfs_access
-bin/rild
 bin/rmt_storage
-lib/libreference-ril.so
-lib/libril.so
 lib/librmnetctl.so
-lib/libsecnativefeature.so
-lib/libsecril-client.so
 lib/libsec-ril.so
 vendor/lib/libcneapiclient.so
 vendor/lib/libnetmgr.so

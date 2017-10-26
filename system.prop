@@ -11,15 +11,11 @@ ro.vendor.extension_library=/vendor/lib/libqti-perfd-client.so
 # Camera
 camera2.portability.force_api=1
 
-# Use custom RIL class
-ro.telephony.ril_class=LtlteRIL
-
 # Set number of elements expected in QUERY_AVAILABLE_NETWORKS
 ro.ril.telephony.mqanelements=6
 
 # Evolution RIL (8xxx)
 rild.libpath=/system/lib/libsec-ril.so
-rild.libargs=-d /dev/smd0
 persist.rild.nitz_plmn=
 persist.rild.nitz_long_ons_0=
 persist.rild.nitz_long_ons_1=
