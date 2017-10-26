@@ -15,7 +15,7 @@ camera2.portability.force_api=1
 ro.ril.telephony.mqanelements=6
 
 # Evolution RIL (8xxx)
-rild.libpath=/system/lib/libsec-ril.so
+rild.libpath=/system/vendor/lib/libsec-ril.so
 persist.rild.nitz_plmn=
 persist.rild.nitz_long_ons_0=
 persist.rild.nitz_long_ons_1=
