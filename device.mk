@@ -135,9 +135,7 @@ PRODUCT_PACKAGES += \
 # Radio
 PRODUCT_PACKAGES += \
 	libreference-ril \
-	libsecnativefeature \
-    libsecril-client \
-    libsecril-client-sap \
+	libsecnativefeature
 
 # Ramdisk
 PRODUCT_PACKAGES += \
