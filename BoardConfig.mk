@@ -64,6 +64,9 @@ BOARD_GLOBAL_CFLAGS += -DMETADATA_CAMERA_SOURCE
 MALLOC_SVELTE := true
 TARGET_NEEDS_GCC_LIBC := true
 
+# Filesystem
+TARGET_FS_CONFIG_GEN := device/samsung/klte-common/config.fs
+
 # HIDL
 DEVICE_MANIFEST_FILE := $(LOCAL_PATH)/manifest.xml
 DEVICE_MATRIX_FILE := $(LOCAL_PATH)/compatibility_matrix.xml
