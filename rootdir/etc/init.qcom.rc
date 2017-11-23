@@ -449,7 +449,7 @@ on property:ro.debuggable=1
 service qmuxd /vendor/bin/qmuxd
     class main
     user radio
-    group radio audio bluetooth gps diag wakelock log
+    group radio audio bluetooth gps oem_2950 wakelock log
 
 service sensors /system/bin/sensors.qcom
     class late_start
