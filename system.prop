@@ -12,7 +12,7 @@ ro.vendor.extension_library=/vendor/lib/libqti-perfd-client.so
 camera2.portability.force_api=1
 
 # Set number of elements expected in QUERY_AVAILABLE_NETWORKS
-ro.ril.telephony.mqanelements=6
+ro.ril.telephony.qan_resp_strings=6
 
 # Evolution RIL (8xxx)
 rild.libpath=/system/vendor/lib/libsec-ril.so
