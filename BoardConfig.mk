@@ -68,8 +68,7 @@ TARGET_NEEDS_GCC_LIBC := true
 TARGET_FS_CONFIG_GEN := device/samsung/klte-common/config.fs
 
 # HIDL
-DEVICE_MANIFEST_FILE := $(LOCAL_PATH)/manifest.xml
-DEVICE_MATRIX_FILE := $(LOCAL_PATH)/compatibility_matrix.xml
+DEVICE_MANIFEST_FILE += $(LOCAL_PATH)/manifest.xml
 
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
