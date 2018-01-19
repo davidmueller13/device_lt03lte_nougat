@@ -225,9 +225,7 @@
          don't support RIL_REQUEST_GET_RADIO_CAPABILITY
          format is UMTS|LTE|... -->
     <string translatable="false" name="config_radio_access_family">GSM|GPRS|EDGE|WCDMA|LTE</string>
-
-    <bool name="config_enableWifiDisplay">true</bool>
-
+    
     <!-- True if the Irda service should be started at system start. This currently only
          supports Samsung Galaxy S4. -->
     <!-- <bool name="config_enableIrdaManagerService">true</bool> -->
@@ -260,7 +258,7 @@
      <bool name="config_useSystemClockforRotationSensor">true</bool>
      
     <!-- If enabled, capacitive keys will only light up when pressed.
-         Otherwise, the buttons will light up whenever the user interacts with the device -->
-    <bool name="config_buttonLightOnKeypressOnly">true</bool>
+         Otherwise, the buttons will light up whenever the user interacts with the device 
+    <bool name="config_buttonLightOnKeypressOnly">true</bool>-->
 
 </resources>
