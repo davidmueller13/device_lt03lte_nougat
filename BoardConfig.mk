@@ -77,6 +77,11 @@ endif
 # Filesystem
 TARGET_FS_CONFIG_GEN := device/samsung/klte-common/config.fs
 
+# GPS
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := $(TARGET_BOARD_PLATFORM)
+BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true
+TARGET_NO_RPC := true
+
 # HIDL
 DEVICE_MANIFEST_FILE += $(LOCAL_PATH)/manifest.xml
 
