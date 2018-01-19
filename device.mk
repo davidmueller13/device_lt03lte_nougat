@@ -134,7 +134,8 @@ PRODUCT_PACKAGES += \
 # Radio
 PRODUCT_PACKAGES += \
 	libreference-ril \
-	libsecnativefeature
+	libsecnativefeature \
+	libshim_cutils_atomic
 
 # Ramdisk
 PRODUCT_PACKAGES += \
@@ -170,7 +171,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     lockscreen.rot_override=true
     
 # Default Properties
-ADDITIONAL_DEFAULT_PROPERTIES += \
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.service.adb.enable=1 \
     persist.service.debuggable=1 \
     ro.adb.secure=0

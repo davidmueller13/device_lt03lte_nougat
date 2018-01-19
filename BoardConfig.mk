@@ -140,6 +140,9 @@ WIFI_DRIVER_MODULE_ARG      := "firmware_path=/vendor/system/etc/wifi/bcmdhd_sta
 WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/vendor/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/vendor/system/etc/wifi/nvram_net.txt"
 
 # Display
-VSYNC_EVENT_PHASE_OFFSET_NS := 7500000
-SF_VSYNC_EVENT_PHASE_OFFSET_NS := 5000000
+SF_START_GRAPHICS_ALLOCATOR_SERVICE := true
+
+# NTFS/ exFAT
+TARGET_KERNEL_HAVE_EXFAT := true
+TARGET_KERNEL_HAVE_NTFS := true
 
