@@ -476,7 +476,7 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
 service macloader /vendor/bin/macloader
     class late_start
     oneshot
-    seclabel u:r:macloader:s0
+#    seclabel u:r:macloader:s0
     
 on property:wlan.driver.status=ok
     start macloader
