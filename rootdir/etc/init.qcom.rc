@@ -47,9 +47,6 @@ on init
     mkdir /mnt/shell/emulated 0700 shell shell
     mkdir /storage 0550 system sdcard_r
     mkdir /storage/emulated 0555 root root
-    
-     # Support legacy paths
-    symlink /sdcard /storage/sdcard0
 
    # Remove symlinks to avoid issues with migrate after nandroid restores
     # Will be recreated at end of boot
