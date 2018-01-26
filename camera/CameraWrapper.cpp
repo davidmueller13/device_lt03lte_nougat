@@ -243,22 +243,22 @@ static int camera_set_preview_window(struct camera_device *device,
     return VENDOR_CALL(device, set_preview_window, window);
 }
 
-void camera_notify_cb(int32_t msg_type, int32_t ext1, int32_t ext2, void *user) {
+void camera_notify_cb(int32_t msg_type, int32_t ext1, int32_t ext2, void __attribute__((unused)) *user) {
     gUserNotifyCb(msg_type, ext1, ext2, gUserCameraDevice);
 }
 
 void camera_data_cb(int32_t msg_type, const camera_memory_t *data, unsigned int index,
-        camera_frame_metadata_t *metadata, void *user) {
+        camera_frame_metadata_t *metadata, void __attribute__((unused)) *user) {
     gUserDataCb(msg_type, data, index, metadata, gUserCameraDevice);
 }
 
 void camera_data_cb_timestamp(nsecs_t timestamp, int32_t msg_type,
-        const camera_memory_t *data, unsigned index, void *user) {
+        const camera_memory_t *data, unsigned index, void __attribute__((unused))*user) {
     gUserDataCbTimestamp(timestamp, msg_type, data, index, gUserCameraDevice);
 }
 
 camera_memory_t* camera_get_memory(int fd, size_t buf_size,
-        uint_t num_bufs, void *user) {
+        uint_t num_bufs, void __attribute__((unused)) *user) {
     return gUserGetMemory(fd, buf_size, num_bufs, gUserCameraDevice);
 }
 
@@ -267,7 +267,7 @@ static void camera_set_callbacks(struct camera_device *device,
         camera_data_callback data_cb,
         camera_data_timestamp_callback data_cb_timestamp,
         camera_request_memory get_memory,
-        void *user)
+        void __attribute__((unused)) *user)
 {
     if (!device)
         return;
