@@ -440,7 +440,7 @@ on property:ro.debuggable=1
     chmod 0666 /sys/class/mhl/timing
 
 # QMUX must be in multiple groups to support external process connections
-service qmuxd /system/bin/qmuxd
+service qmuxd /system/vendor/bin/qmuxd
     class main
     user radio
     group radio audio bluetooth gps diag wakelock log
