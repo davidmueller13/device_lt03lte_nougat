@@ -412,6 +412,7 @@ on post-fs-data
 
 # Set permissions for firmware path control
     chown wifi wifi /sys/module/dhd/parameters/firmware_path
+    chown wifi wifi /sys/module/dhd/parameters/nvram_path
 
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class main
