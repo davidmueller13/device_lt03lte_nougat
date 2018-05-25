@@ -43,6 +43,7 @@ BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
 TARGET_KERNEL_CONFIG := lineageos_lt03lte_defconfig
 TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
+LZMA_RAMDISK_TARGETS := recovery
 
 # Audio
 AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
@@ -102,6 +103,12 @@ WITH_DEXPREOPT := true
 # Power HAL
 TARGET_POWERHAL_VARIANT := qcom
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
+
+
+# TWRP Support - Optional
+ifeq ($(WITH_TWRP),true)
+-include $(LOCAL_PATH)/twrp.mk
+endif
 
 # Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
