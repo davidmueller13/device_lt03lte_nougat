@@ -171,5 +171,9 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.service.debuggable=1 \
     ro.adb.secure=0
 
+# Vendor security patch level
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lineage.build.vendor_security_patch=2017-04-01
+
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
