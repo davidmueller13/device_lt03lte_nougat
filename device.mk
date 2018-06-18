@@ -69,7 +69,7 @@ PRODUCT_PACKAGES += \
 
 # Gestures
 PRODUCT_PACKAGES += \
-    com.cyanogenmod.keyhandler
+    org.lineageos.keyhandler
     
 # Camera
 PRODUCT_PACKAGES += \
