@@ -69,9 +69,8 @@ DEVICE_MANIFEST_FILE += $(LOCAL_PATH)/manifest.xml
 
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
-TARGET_LD_SHIM_LIBS := /system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so:/system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so:/system/lib/libcutils.so|libshim_cutils_atomic.so
-
-# Charger
+TARGET_LD_SHIM_LIBS += /system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so:/system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
+    
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CMHW

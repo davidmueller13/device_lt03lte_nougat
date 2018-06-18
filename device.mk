@@ -129,8 +129,7 @@ PRODUCT_PACKAGES += \
 # Radio
 PRODUCT_PACKAGES += \
 	libreference-ril \
-	libsecnativefeature \
-	libshim_cutils_atomic
+	libsecnativefeature
 
 # Ramdisk
 PRODUCT_PACKAGES += \
