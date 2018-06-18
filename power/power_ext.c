@@ -55,4 +55,8 @@ void power_set_interactive_ext(int on) {
     sysfs_write(GPIO_KEYS_POWER, on ? "1" : "0");
 }
 
+void cm_power_set_interactive_ext(int on) {
+    power_set_interactive_ext(on);
+}
+
 
