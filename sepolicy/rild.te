@@ -1,4 +1,0 @@
-allow rild proc_net:file { getattr open read write };
-allow rild sysfs_sec:file { getattr open read write };
-allow rild self:capability { dac_override dac_read_search };
-allow rild radio_data_file:lnk_file read;

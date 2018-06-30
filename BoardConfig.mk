@@ -126,8 +126,7 @@ BOARD_PROVIDES_LIBRIL := true
 TARGET_RIL_VARIANT := caf
 
 # SELinux
--include device/qcom/sepolicy/sepolicy.mk
-BOARD_SEPOLICY_DIRS += $(LOCAL_PATH)/sepolicy
+-include $(LOCAL_PATH)/sepolicy/sepolicy.mk
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI     := true

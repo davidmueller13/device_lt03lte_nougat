@@ -1,1 +1,0 @@
-allow init sysfs_gpu:lnk_file r_file_perms;
