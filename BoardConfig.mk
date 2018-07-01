@@ -17,9 +17,9 @@
 # Inherit from common msm8974
 -include device/samsung/msm8974-common/BoardConfigCommon.mk
 
-LOCAL_PATH := device/samsung/lt03lte
+COMMON_PATH := device/samsung/lt03lte
 
-TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
+TARGET_SPECIFIC_HEADER_PATH := $(COMMON_PATH)/include
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := lt03lte,lt03ltexx
@@ -53,8 +53,8 @@ USE_CUSTOM_AUDIO_POLICY := 1
 TARGET_USES_64_BIT_BINDER := true
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
-BOARD_CUSTOM_BT_CONFIG := $(LOCAL_PATH)/bluetooth/libbt_vndcfg.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
+BOARD_CUSTOM_BT_CONFIG := $(COMMON_PATH)/bluetooth/libbt_vndcfg.txt
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
 
@@ -65,7 +65,7 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 TARGET_FS_CONFIG_GEN := device/samsung/lt03lte/config.fs
 
 # HIDL
-DEVICE_MANIFEST_FILE += $(LOCAL_PATH)/manifest.xml
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
@@ -78,7 +78,7 @@ TARGET_LD_SHIM_LIBS += \
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
 # CMHW
-BOARD_HARDWARE_CLASS += device/samsung/lt03lte/lineagehw
+BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
 
 # Filesystem
 BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336
@@ -100,12 +100,14 @@ WITH_DEXPREOPT := true
 
 # Power HAL
 TARGET_POWERHAL_VARIANT := qcom
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
+TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(COMMON_PATH)/power/power_ext.c
 
+# Properties
+TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
 
 # TWRP Support - Optional
 ifeq ($(WITH_TWRP),true)
--include $(LOCAL_PATH)/twrp.mk
+-include $(COMMON_PATH)/twrp.mk
 endif
 
 # Recovery
@@ -116,17 +118,17 @@ BOARD_RECOVERY_SWIPE := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 BOARD_USES_MMCUTILS := true
 TARGET_RECOVERY_USE_LCD_POWER_BLANK := true
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
 
 # Releasetools
-TARGET_RELEASETOOLS_EXTENSIONS := $(LOCAL_PATH)/releasetools
+TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)/releasetools
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 TARGET_RIL_VARIANT := caf
 
 # SELinux
--include $(LOCAL_PATH)/sepolicy/sepolicy.mk
+-include $(COMMON_PATH)/sepolicy/sepolicy.mk
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI     := true
