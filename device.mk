@@ -16,6 +16,7 @@
 #
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
+$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 
 # Get non-open-source specific aspects
 $(call inherit-product-if-exists, vendor/samsung/lt03lte/lt03lte-vendor.mk)
@@ -35,9 +36,6 @@ PRODUCT_AAPT_PREF_CONFIG := xhdpi
 TARGET_BOOTANIMATION_HALF_RES := true
 TARGET_SCREEN_HEIGHT := 1600
 TARGET_SCREEN_WIDTH := 2560
-
-# call dalvik heap and hwui config
-$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 
 # Add WiFi Config files
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
