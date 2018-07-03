@@ -30,6 +30,28 @@ TARGET_USES_LEGACY_ADB_INTERFACE := true
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 
+# Audio
+AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
+USE_CUSTOM_AUDIO_POLICY := 1
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
+BOARD_CUSTOM_BT_CONFIG := $(COMMON_PATH)/bluetooth/libbt_vndcfg.txt
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_BCM := true
+
+# Camera
+USE_DEVICE_SPECIFIC_CAMERA := true
+
+# Charger
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
+
+# CMHW
+BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
+
+# HIDL
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
+
 # Kernel
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
@@ -45,40 +67,12 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
 LZMA_RAMDISK_TARGETS := recovery
 
-# Audio
-AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
-USE_CUSTOM_AUDIO_POLICY := 1
-
-# Binder API version
-TARGET_USES_64_BIT_BINDER := true
-
-# Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
-BOARD_CUSTOM_BT_CONFIG := $(COMMON_PATH)/bluetooth/libbt_vndcfg.txt
-BOARD_HAVE_BLUETOOTH := true
-BOARD_HAVE_BLUETOOTH_BCM := true
-
-# Camera
-USE_DEVICE_SPECIFIC_CAMERA := true
-
-# Filesystem
-TARGET_FS_CONFIG_GEN := device/samsung/lt03lte/config.fs
-
-# HIDL
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
-
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 
 TARGET_LD_SHIM_LIBS += \
 	/system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so \
 	/system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
-
-
-BOARD_CHARGER_DISABLE_INIT_BLANK := true
-
-# CMHW
-BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
 
 # Filesystem
 BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336
@@ -95,6 +89,10 @@ BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 TARGET_INIT_VENDOR_LIB := libinit_msm8974
 TARGET_LIBINIT_MSM8974_DEFINES_FILE := device/samsung/lt03lte/init/init_lt03lte.cpp
 
+# NTFS/ exFAT
+TARGET_EXFAT_DRIVER := sdfat
+TARGET_KERNEL_HAVE_NTFS := true
+
 # Pre-Optimize DEX
 WITH_DEXPREOPT := true
 
@@ -104,11 +102,6 @@ TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(COMMON_PATH)/power/power_ext.c
 
 # Properties
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
-
-# TWRP Support - Optional
-ifeq ($(WITH_TWRP),true)
--include $(COMMON_PATH)/twrp.mk
-endif
 
 # Recovery
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -130,6 +123,11 @@ TARGET_RIL_VARIANT := caf
 # SELinux
 -include $(COMMON_PATH)/sepolicy/sepolicy.mk
 
+# TWRP Support - Optional
+ifeq ($(WITH_TWRP),true)
+-include $(COMMON_PATH)/twrp.mk
+endif
+
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI     := true
 BOARD_WLAN_DEVICE           := bcmdhd
@@ -144,8 +142,3 @@ WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/etc/wifi/bcmdhd_apsta.bin"
 
 WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/vendor/etc/wifi/bcmdhd_sta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/vendor/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
-
-# NTFS/ exFAT
-TARGET_EXFAT_DRIVER := sdfat
-TARGET_KERNEL_HAVE_NTFS := true
-
