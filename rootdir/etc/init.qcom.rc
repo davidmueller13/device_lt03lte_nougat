@@ -409,7 +409,7 @@ on post-fs-data
     chown wifi wifi /sys/module/dhd/parameters/firmware_path
     chown wifi wifi /sys/module/dhd/parameters/nvram_path
 
-service irsc_util /vendor/bin/irsc_util "system/vendor/etc/sec_config"
+service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class main
     user root
     oneshot
@@ -444,7 +444,7 @@ service qmuxd /system/vendor/bin/qmuxd
 service sensors /system/bin/sensors.qcom
     class late_start
     user root
-    group root system
+    group root
     disabled
 
 service netmgrd /system/bin/netmgrd

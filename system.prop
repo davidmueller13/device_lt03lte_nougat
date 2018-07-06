@@ -71,11 +71,3 @@ net.tethering.noprovisioning=true
 
 # Display
 debug.hwui.use_buffer_age=false
-
-# Vendor security patch level
-ro.lineage.build.vendor_security_patch=2017-04-01
-
-# Default Properties
-persist.service.adb.enable=1 \
-persist.service.debuggable=1 \
-ro.adb.secure=0

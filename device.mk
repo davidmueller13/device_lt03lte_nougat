@@ -18,6 +18,9 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 
+# Get non-open-source specific aspects
+$(call inherit-product-if-exists, vendor/samsung/lt03lte/lt03lte-vendor.mk)
+
 # Declare tablet
 PRODUCT_CHARACTERISTICS := tablet
 
@@ -157,9 +160,16 @@ PRODUCT_PACKAGES += \
 # Allow lockscreen rotation
 PRODUCT_PROPERTY_OVERRIDES += \
     lockscreen.rot_override=true
+    
+# Default Properties
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.service.adb.enable=1 \
+    persist.service.debuggable=1 \
+    ro.adb.secure=0
 
-# Get non-open-source specific aspects
-$(call inherit-product-if-exists, vendor/samsung/lt03lte/lt03lte-vendor.mk)
+# Vendor security patch level
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.lineage.build.vendor_security_patch=2017-04-01
 
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
