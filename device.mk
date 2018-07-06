@@ -67,12 +67,10 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl \
-    camera.device@3.2-impl \
     camera.device@1.0-impl \
-    vendor.qti.hardware.camera.device@1.0 \
-    vendor.qti.hardware.camera.device@1.0_vendor \
     camera.msm8974 \
-    libshim_camera
+    libshim_camera \
+    libshim_cutils_atomic
 
 # Display
 PRODUCT_PROPERTY_OVERRIDES += \
