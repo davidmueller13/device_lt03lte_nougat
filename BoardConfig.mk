@@ -21,11 +21,11 @@ COMMON_PATH := device/samsung/lt03lte
 
 TARGET_SPECIFIC_HEADER_PATH := $(COMMON_PATH)/include
 
-# Assert
-TARGET_OTA_ASSERT_DEVICE := lt03lte,lt03ltexx
-
 # ADB Legacy Interface
 TARGET_USES_LEGACY_ADB_INTERFACE := true
+
+# Assert
+TARGET_OTA_ASSERT_DEVICE := lt03lte,lt03ltexx
 
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
@@ -61,26 +61,27 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 
-# Filesystem
-TARGET_FS_CONFIG_GEN := device/samsung/lt03lte/config.fs
+# CMHW
+BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
+
+# Extended Filesystem Support
+TARGET_EXFAT_DRIVER := sdfat
+TARGET_KERNEL_HAVE_NTFS := true
 
 # HIDL
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 
+# Init
+TARGET_INIT_VENDOR_LIB := libinit_msm8974
+TARGET_LIBINIT_MSM8974_DEFINES_FILE := device/samsung/lt03lte/init/init_lt03lte.cpp
+
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
-
 TARGET_LD_SHIM_LIBS += \
 	/system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so \
 	/system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
 
-
-BOARD_CHARGER_DISABLE_INIT_BLANK := true
-
-# CMHW
-BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
-
-# Filesystem
+# Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 15259648
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2506096640
@@ -91,37 +92,21 @@ TARGET_USERIMAGES_USE_F2FS := true
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := f2fs
 BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
 
-# Init
-TARGET_INIT_VENDOR_LIB := libinit_msm8974
-TARGET_LIBINIT_MSM8974_DEFINES_FILE := device/samsung/lt03lte/init/init_lt03lte.cpp
-
-# Pre-Optimize DEX
-WITH_DEXPREOPT := true
-
 # Power HAL
 TARGET_POWERHAL_VARIANT := qcom
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(COMMON_PATH)/power/power_ext.c
 
-# Properties
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
-
-# TWRP Support - Optional
-ifeq ($(WITH_TWRP),true)
--include $(COMMON_PATH)/twrp.mk
-endif
+# Pre-Optimize DEX
+WITH_DEXPREOPT := true
 
 # Recovery
-BOARD_HAS_LARGE_FILESYSTEM := true
-BOARD_HAS_NO_MISC_PARTITION := true
-BOARD_HAS_NO_SELECT_BUTTON := true
-BOARD_RECOVERY_SWIPE := true
-BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
-BOARD_USES_MMCUTILS := true
-TARGET_RECOVERY_USE_LCD_POWER_BLANK := true
 TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
 
 # Releasetools
 TARGET_RELEASETOOLS_EXTENSIONS := $(COMMON_PATH)/releasetools
+
+# Properties
+TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true
@@ -129,6 +114,17 @@ TARGET_RIL_VARIANT := caf
 
 # SELinux
 -include $(COMMON_PATH)/sepolicy/sepolicy.mk
+
+# Sensors
+TARGET_NO_SENSOR_PERMISSION_CHECK := true
+
+# TWRP Support - Optional
+ifeq ($(WITH_TWRP),true)
+-include $(COMMON_PATH)/twrp.mk
+endif
+
+# Use Snapdragon LLVM if available on build server
+TARGET_USE_SDCLANG := true
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI     := true
@@ -145,7 +141,5 @@ WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/etc/wifi/bcmdhd_apsta.bin"
 WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/vendor/etc/wifi/bcmdhd_sta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/vendor/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
 
-# NTFS/ exFAT
-TARGET_EXFAT_DRIVER := sdfat
-TARGET_KERNEL_HAVE_NTFS := true
-
+# Inherit from the proprietary version
+-include vendor/samsung/lt03lte/BoardConfigVendor.mk
