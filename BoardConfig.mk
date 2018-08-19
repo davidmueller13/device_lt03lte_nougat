@@ -128,7 +128,7 @@ BOARD_PROVIDES_LIBRIL := true
 TARGET_RIL_VARIANT := caf
 
 # SELinux
--include $(COMMON_PATH)/sepolicy/sepolicy.mk
+#-include $(COMMON_PATH)/sepolicy/sepolicy.mk
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI     := true

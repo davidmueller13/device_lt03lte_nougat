@@ -59,8 +59,8 @@ PRODUCT_PACKAGES += \
     libboringssl-compat
 
 # Doze
-PRODUCT_PACKAGES += \
-    SamsungDoze
+#PRODUCT_PACKAGES += \
+#    SamsungDoze
 
 # Gestures
 PRODUCT_PACKAGES += \
