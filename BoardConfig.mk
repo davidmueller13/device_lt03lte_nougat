@@ -61,9 +61,6 @@ BOARD_HAVE_BLUETOOTH_BCM := true
 # Camera
 USE_DEVICE_SPECIFIC_CAMERA := true
 
-# Filesystem
-TARGET_FS_CONFIG_GEN := device/samsung/lt03lte/config.fs
-
 # HIDL
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 
