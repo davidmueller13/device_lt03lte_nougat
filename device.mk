@@ -163,7 +163,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.service.adb.enable=1 \
     persist.service.debuggable=1 \
-    ro.adb.secure=0
+    ro.adb.secure=0 \
+    ro.secure=0 \
+    ro.debuggable=1
+
+# USB
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp,adb \
+    persist.sys.root_access=2
 
 # Vendor security patch level
 PRODUCT_PROPERTY_OVERRIDES += \
