@@ -63,8 +63,8 @@ PRODUCT_PACKAGES += \
 #    SamsungDoze
 
 # Gestures
-PRODUCT_PACKAGES += \
-    org.lineageos.keyhandler
+#PRODUCT_PACKAGES += \
+#    org.lineageos.keyhandler
     
 # Camera
 PRODUCT_PACKAGES += \
