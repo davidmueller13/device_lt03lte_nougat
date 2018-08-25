@@ -275,6 +275,9 @@ on boot
 # msm specific files that need to be created on /data
 on post-fs-data
 
+    # Allow writing to the kernel trace log.
+    chmod 0222 /sys/kernel/debug/tracing/trace_marker
+
 # we will remap this as /storage/container with the sdcard fuse tool
     mkdir /data/container 0770 system system
     chown system system /data/container
