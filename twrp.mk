@@ -34,4 +34,4 @@ TW_NO_SCREEN_TIMEOUT := true
 TARGET_RECOVERY_QCOM_RTC_FIX := true
 BOARD_USES_MMCUTILS := true
 TW_USE_TOOLBOX := true
-TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/twrp/recovery/root/etc/twrp.fstab
+TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/twrp/recovery/root/etc/twrp.fstab
