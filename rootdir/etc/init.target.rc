@@ -40,7 +40,7 @@ on fs
     write /sys/devices/msm_sdcc.1/mmc_host/mmc1/power/control on
     write /sys/devices/msm_sdcc.3/mmc_host/mmc2/power/control on
 
-    mount_all fstab.qcom
+    mount_all fstab.qcom --early
 
     setprop ro.crypto.fuse_sdcard true
 
@@ -68,6 +68,16 @@ on fs
 
     restorecon_recursive /persist
     restorecon_recursive /efs
+
+    # Start HW service manager early
+    start hwservicemanager
+ on late-fs
+    # Start services for bootanim
+    start vendor.configstore-hal
+    start surfaceflinger
+    start bootanim
+    start vendor.gralloc-2-0
+     mount_all fstab.qcom --late
 
 on post-fs-data
     mkdir /data/tombstones 0771 system system
