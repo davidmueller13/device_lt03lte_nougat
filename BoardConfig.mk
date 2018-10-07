@@ -76,7 +76,9 @@ TARGET_LD_SHIM_LIBS += \
 	
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/bin/mediaserver=22 \
-    /system/vendor/bin/mm-qcamera-daemon=22
+    /system/vendor/bin/mm-qcamera-daemon=22 \
+    /system/vendor/bin/hw/android.hardware.sensors@1.0-service.samsung8974=22 \
+    /system/vendor/bin/hw/rild=27
 
 BOARD_CHARGER_DISABLE_INIT_BLANK := true
 
