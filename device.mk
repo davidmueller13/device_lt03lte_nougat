@@ -21,7 +21,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 $(call inherit-product-if-exists, vendor/samsung/lt03lte/lt03lte-vendor.mk)
 
 # Declare tablet
-PRODUCT_CHARACTERISTICS := tablet
+PRODUCT_CHARACTERISTICS := tablet,noearpiece
 
 # Overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
