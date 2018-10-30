@@ -77,9 +77,7 @@ TARGET_LIBINIT_MSM8974_DEFINES_FILE := device/samsung/lt03lte/init/init_lt03lte.
 
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
-TARGET_LD_SHIM_LIBS += \
-	/system/vendor/lib/libqomx_jpegenc.so|libboringssl-compat.so \
-	/system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
+TARGET_LD_SHIM_LIBS += /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336

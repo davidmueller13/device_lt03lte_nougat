@@ -531,7 +531,7 @@ on property:persist.usb.chgdisabled=1
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
     class main
     user camera
-    group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
+    group camera system inet input graphics bluetooth
 
 service qseecomd /vendor/bin/qseecomd
    class core
