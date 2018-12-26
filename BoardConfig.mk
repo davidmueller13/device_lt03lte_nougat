@@ -21,6 +21,9 @@ LOCAL_PATH := device/samsung/lt03lte
 
 TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
 
+# Use Snapdragon LLVM if available on build server
+TARGET_USE_SDCLANG := true
+
 # Assert
 TARGET_OTA_ASSERT_DEVICE := lt03lte,lt03ltexx
 
