@@ -172,9 +172,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp,adb \
     persist.sys.root_access=2
 
-# Vendor security patch level
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.lineage.build.vendor_security_patch=2017-04-01
-
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
