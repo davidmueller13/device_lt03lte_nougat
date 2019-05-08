@@ -249,9 +249,6 @@
 
     <!-- enable doze powersaving mode -->
     <bool name="config_enableAutoPowerModes">true</bool>
-    
-    <!-- Allow screen mirroring/miracast -->
-    <bool name="config_enableWifiDisplay">true</bool>
 
     <!-- Older rotation sensors are not setting event.timestamp correctly. Setting to
           true will use SystemClock.elapsedRealtimeNanos() to set timestamp. -->
