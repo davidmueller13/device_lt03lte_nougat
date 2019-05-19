@@ -133,6 +133,12 @@ on boot
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
 
+    # Change owner and group for media server and surface flinger
+    chown system system /sys/devices/virtual/graphics/fb1/format_3d
+
+    # Allow RIL daemon to assign port open fd_wakelock
+    chown system radio /sys/devices/virtual/sec/mdm_hsic_pm/waketime
+
     # Assign TCP buffer thresholds to be ceiling value of technology maximums
     # Increased technology maximums should be reflected here.
     write /proc/sys/net/core/rmem_max  2097152
@@ -148,6 +154,23 @@ on boot
     write /proc/sys/net/ipv6/conf/rmnet6/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet7/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_usb0/accept_ra 2
+
+    # To prevent out of order acknowledgements from making
+    # connection tracking to treat them as not belonging to
+    # the connection they belong to.
+    # Otherwise, a weird issue happens in which some long
+    # connections on high-throughput links get dropped when
+    # an ack packet comes out of order
+    write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
+
+    # Set the console loglevel to < KERN_INFO
+    # Set the default message loglevel to KERN_INFO
+    # modified by SEC, SEC use a loglevel path with another way.
+    # write /proc/sys/kernel/printk "6 6 1 7"
+
+    # Flash storage isn't a good entropy source, and only causes locking
+    # overhead in the kernel. Turn it off.
+    write /sys/block/mmcblk0/queue/add_random 0
 
     # IR_LED
     chown system radio /sys/class/sec/sec_ir/ir_send
@@ -200,7 +223,7 @@ on boot
     chmod 0664  /sys/class/leds/led:rgb_blue/blink
 
     chmod 666 /sys/class/camera/flash/rear_flash
-    chown system camera /sys/class/camera/flash/rear_flash
+    chown system radio /sys/class/camera/flash/rear_flash
     
     chmod 0660 /sys/class/leds/torch-sec1/brightness
     chown system camera /sys/class/leds/torch-sec1/brightness
@@ -445,7 +468,7 @@ on property:ro.debuggable=1
 service qmuxd /system/vendor/bin/qmuxd
     class main
     user radio
-    group radio audio bluetooth gps diag wakelock log
+    group radio audio bluetooth gps oem_2950 log
 
 service sensors /system/bin/sensors.qcom
     class late_start

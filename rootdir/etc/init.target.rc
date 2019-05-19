@@ -287,12 +287,12 @@ on boot
     chown system system /sys/class/sec/sec_touchkey/brightness
 
 # Permissions for Camera
-    chown system radio /sys/class/camera/rear/rear_camfw
-    chown system radio /sys/class/camera/rear/rear_camfw_load
-    chown system radio /sys/class/camera/rear/rear_camtype
+    chown system system /sys/class/camera/rear/rear_camfw
+    chown system system /sys/class/camera/rear/rear_camfw_load
+    chown system system /sys/class/camera/rear/rear_camtype
     chown system radio /sys/class/camera/flash/rear_flash
-    chown system radio /sys/class/camera/front/front_camfw
-    chown system radio /sys/class/camera/front/front_camtype
+    chown system system /sys/class/camera/front/front_camfw
+    chown system system /sys/class/camera/front/front_camtype
 
     #OTG Test
     chown system radio /sys/class/host_notify/usb_otg/booster
@@ -541,7 +541,7 @@ on property:persist.usb.chgdisabled=1
 service qcamerasvr /vendor/bin/mm-qcamera-daemon
     class main
     user camera
-    group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
+    group camera system inet input graphics bluetooth
 
 service qseecomd /vendor/bin/qseecomd
    class core
@@ -564,3 +564,7 @@ service time_daemon /vendor/bin/time_daemon
    user root
    group root
 
+service audiod /system/bin/audiod
+    class late_start
+    user system
+    group system

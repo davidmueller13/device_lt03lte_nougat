@@ -1,6 +1,5 @@
 /*
- * Copyright (C) 2017 The LineageOS Project
- * Copyright (C) 2019 The LineageOS Project
+ * Copyright (C) 2012 The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +14,11 @@
  * limitations under the License.
  */
 
-int _ZNK7android16CameraParameters8getInt64EPKc(const char *key);
+#ifndef DEVICE_PERMS_H
+#define DEVICE_PERMS_H
 
-int _ZNK7android16CameraParameters8getInt64EPKc(const char *key)
-{
-    return -1;
-}
-
-//int CameraParameters::getInt64(const char *key) const { return -1; };
+#define PROPERTY_PERMS_APPEND \
+    { "persist.audio.",   AID_SYSTEM,   0 }, \
+    { "persist.sys.camera.", AID_MEDIA, 0 }, \
+    { "wlan.hdcp2.", AID_MEDIA, 0 },
+#endif /* DEVICE_PERMS_H */

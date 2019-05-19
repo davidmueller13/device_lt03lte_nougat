@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2012-2016, The CyanogenMod Project
- * Copyright (C) 2017 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,9 +32,8 @@
 
 static const char KEY_DIS[] = "dis";
 static const char DIS_DISABLE[] = "disable";
-static const char KEY_ZSL[] = "zsl";
-static const char ZSL_ON[] = "on";
-static const char ZSL_OFF[] = "off";
+static const char ON[] = "on";
+static const char OFF[] = "off";
 
 #define BACK_CAMERA_ID 0
 #define FRONT_CAMERA_ID 1
@@ -86,7 +84,6 @@ camera_module_t HAL_MODULE_INFO_SYM = {
 
 typedef struct wrapper_camera_device {
     camera_device_t base;
-    int camera_released;
     int id;
     camera_device_t *vendor;
 } wrapper_camera_device_t;
@@ -152,22 +149,6 @@ static char *camera_fixup_getparams(int __attribute__((unused)) id,
                 videoSizes);
     }
 
-    /* If the vendor has HFR values but doesn't also expose that
-     * this can be turned off, fixup the params to tell the Camera
-     * that it really is okay to turn it off.
-     */
-    const char *hfrModeValues = params.get(KEY_VIDEO_HFR_VALUES);
-    if (hfrModeValues && !strstr(hfrModeValues, "off")) {
-        char hfrModes[strlen(hfrModeValues) + 4 + 1];
-        sprintf(hfrModes, "%s,off", hfrModeValues);
-        params.set(KEY_VIDEO_HFR_VALUES, hfrModes);
-    }
-
-    /* Enforce video-snapshot-supported to true */
-    if (videoMode) {
-        params.set(CameraParameters::KEY_VIDEO_SNAPSHOT_SUPPORTED, "true");
-    }
-
     ALOGV("%s: Fixed parameters:", __FUNCTION__);
     params.dump();
 
@@ -185,31 +166,8 @@ static char *camera_fixup_setparams(int id, const char *settings)
     ALOGV("%s: original parameters:", __FUNCTION__);
     params.dump();
 
-    bool wasTorch = false;
-    if (fixed_set_params[id]) {
-        /* When torch mode is switched off, it is important not to set ZSL, to
-           avoid a segmentation violation in libcameraservice.so. Hence, check
-           if the last call to setparams enabled torch mode */
-        CameraParameters old_params;
-        old_params.unflatten(String8(fixed_set_params[id]));
-
-        const char *old_flashMode = old_params.get(CameraParameters::KEY_FLASH_MODE);
-        wasTorch = old_flashMode && !strcmp(old_flashMode, CameraParameters::FLASH_MODE_TORCH);
-    }
-
     const char *recordingHint = params.get(CameraParameters::KEY_RECORDING_HINT);
     bool isVideo = recordingHint && !strcmp(recordingHint, "true");
-    const char *flashMode = params.get(CameraParameters::KEY_FLASH_MODE);
-    bool isTorch = flashMode && !strcmp(flashMode, CameraParameters::FLASH_MODE_TORCH);
-
-    if (!isTorch && !wasTorch) {
-        if (isVideo) {
-            params.set(KEY_DIS, DIS_DISABLE);
-            params.set(KEY_ZSL, ZSL_OFF);
-        } else {
-            params.set(KEY_ZSL, ZSL_ON);
-        }
-    }
 
     ALOGV("%s: Fixed parameters:", __FUNCTION__);
     params.dump();
@@ -241,22 +199,22 @@ static int camera_set_preview_window(struct camera_device *device,
     return VENDOR_CALL(device, set_preview_window, window);
 }
 
-void camera_notify_cb(int32_t msg_type, int32_t ext1, int32_t ext2, void __attribute__((unused)) *user) {
+void camera_notify_cb(int32_t msg_type, int32_t ext1, int32_t ext2, void *user) {
     gUserNotifyCb(msg_type, ext1, ext2, gUserCameraDevice);
 }
 
 void camera_data_cb(int32_t msg_type, const camera_memory_t *data, unsigned int index,
-        camera_frame_metadata_t *metadata, void __attribute__((unused)) *user) {
+        camera_frame_metadata_t *metadata, void *user) {
     gUserDataCb(msg_type, data, index, metadata, gUserCameraDevice);
 }
 
 void camera_data_cb_timestamp(nsecs_t timestamp, int32_t msg_type,
-        const camera_memory_t *data, unsigned index, void __attribute__((unused))*user) {
+        const camera_memory_t *data, unsigned index, void *user) {
     gUserDataCbTimestamp(timestamp, msg_type, data, index, gUserCameraDevice);
 }
 
 camera_memory_t* camera_get_memory(int fd, size_t buf_size,
-        uint_t num_bufs, void __attribute__((unused)) *user) {
+        uint_t num_bufs, void *user) {
     return gUserGetMemory(fd, buf_size, num_bufs, gUserCameraDevice);
 }
 
@@ -265,7 +223,7 @@ static void camera_set_callbacks(struct camera_device *device,
         camera_data_callback data_cb,
         camera_data_timestamp_callback data_cb_timestamp,
         camera_request_memory get_memory,
-        void __attribute__((unused)) *user)
+        void *user)
 {
     if (!device)
         return;
@@ -515,19 +473,13 @@ static int camera_send_command(struct camera_device *device,
 
 static void camera_release(struct camera_device *device)
 {
-	wrapper_camera_device_t* wrapper_dev = NULL;
-	
     if (!device)
         return;
-        
-    wrapper_dev = (wrapper_camera_device_t*) device;
 
     ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device,
             (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
 
     VENDOR_CALL(device, release);
-    
-    wrapper_dev->camera_released = true;
 }
 
 static int camera_dump(struct camera_device *device, int fd)
@@ -563,15 +515,6 @@ static int camera_device_close(hw_device_t *device)
     }
 
     wrapper_dev = (wrapper_camera_device_t*) device;
-
-    if (!wrapper_dev->camera_released) {
-        ALOGI("%s: releasing camera device with id %d", __FUNCTION__,
-                wrapper_dev->id);
-
-        VENDOR_CALL(wrapper_dev, release);
-
-        wrapper_dev->camera_released = true;
-   }
 
     wrapper_dev->vendor->common.close((hw_device_t*)wrapper_dev->vendor);
     if (wrapper_dev->base.ops)
@@ -640,13 +583,11 @@ static int camera_device_open(const hw_module_t *module, const char *name,
             goto fail;
         }
         memset(camera_device, 0, sizeof(*camera_device));
-        camera_device->camera_released = false;
         camera_device->id = camera_id;
 
-		rv = gVendorModule->common.methods->open(
-			(const hw_module_t*)gVendorModule, name,
-			(hw_device_t**)&(camera_device->vendor));
-
+        rv = gVendorModule->common.methods->open(
+                (const hw_module_t*)gVendorModule, name,
+                (hw_device_t**)&(camera_device->vendor));
         if (rv) {
             ALOGE("Vendor camera open fail");
             goto fail;
