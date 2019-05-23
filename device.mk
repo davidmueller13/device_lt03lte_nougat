@@ -87,7 +87,8 @@ PRODUCT_PACKAGES += \
 
 # Media profiles
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/media_profiles_V1_0.xml:system/vendor/etc/media_profiles_V1_0.xml
+    $(LOCAL_PATH)/configs/media_profiles_V1_0.xml:system/vendor/etc/media_profiles_V1_0.xml \
+    $(LOCAL_PATH)/configs/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml
 
 # MSM IPC Router security configuration
 PRODUCT_COPY_FILES += \
