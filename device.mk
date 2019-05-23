@@ -57,14 +57,6 @@ PRODUCT_COPY_FILES += \
 # BoringSSL compatability wrapper
 PRODUCT_PACKAGES += \
     libboringssl-compat
-
-# Doze
-#PRODUCT_PACKAGES += \
-#    SamsungDoze
-
-# Gestures
-#PRODUCT_PACKAGES += \
-#    org.lineageos.keyhandler
     
 # Camera
 PRODUCT_PACKAGES += \
@@ -79,6 +71,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.qualcomm.cabl=1 \
     ro.secwvk=144 \
     ro.sf.lcd_density=320
+  
+# Doze
+#PRODUCT_PACKAGES += \
+#    SamsungDoze
+    
+# Gestures
+PRODUCT_PACKAGES += \
+    org.lineageos.keyhandler   
     
 # IPv6 tethering
 PRODUCT_PACKAGES += \
