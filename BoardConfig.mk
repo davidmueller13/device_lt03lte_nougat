@@ -27,6 +27,30 @@ TARGET_OTA_ASSERT_DEVICE := lt03lte,lt03ltexx
 # Bootloader
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 
+# Audio
+AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
+USE_CUSTOM_AUDIO_POLICY := 1
+
+# Bluetooth
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
+BOARD_CUSTOM_BT_CONFIG := $(COMMON_PATH)/bluetooth/libbt_vndcfg.txt
+BOARD_HAVE_BLUETOOTH_BCM := true
+
+# Charging
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
+
+# CMHW
+BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
+
+# Display
+TARGET_MSM8974_1440P_EGL_WORKAROUND := true
+
+# Encryption
+TARGET_KEYMASTER_SKIP_WAITING_FOR_QSEE := true
+
+# HIDL
+DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
+
 # Kernel
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
@@ -42,24 +66,6 @@ TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
 LZMA_RAMDISK_TARGETS := recovery
 
-# Audio
-AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
-USE_CUSTOM_AUDIO_POLICY := 1
-
-# Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
-BOARD_CUSTOM_BT_CONFIG := $(COMMON_PATH)/bluetooth/libbt_vndcfg.txt
-BOARD_HAVE_BLUETOOTH_BCM := true
-
-# Display
-TARGET_MSM8974_1440P_EGL_WORKAROUND := true
-
-# Encryption
-TARGET_KEYMASTER_SKIP_WAITING_FOR_QSEE := true
-
-# HIDL
-DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
-
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 
@@ -73,11 +79,6 @@ TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/vendor/bin/hw/android.hardware.sensors@1.0-service.samsung8974=22 \
     /system/vendor/bin/hw/rild=27
 
-BOARD_CHARGER_DISABLE_INIT_BLANK := true
-
-# CMHW
-BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
-
 # Filesystem
 BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336
 BOARD_CACHEIMAGE_PARTITION_SIZE := 209715200
@@ -89,6 +90,10 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
+# FS
+TARGET_EXFAT_DRIVER := sdfat
+TARGET_KERNEL_HAVE_NTFS := true
+
 # Pre-Optimize DEX
 WITH_DEXPREOPT := true
 
@@ -98,9 +103,6 @@ TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(COMMON_PATH)/power/power_ext.c
 
 # Properties
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
-
-# Sensors
-TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # TWRP Support - Optional
 ifeq ($(WITH_TWRP),true)
@@ -113,6 +115,9 @@ TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 TARGET_RIL_VARIANT := caf
+
+# Sensors
+TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # SELinux
 #-include $(COMMON_PATH)/sepolicy/sepolicy.mk
@@ -131,8 +136,4 @@ WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/etc/wifi/bcmdhd_apsta.bin"
 
 WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/vendor/etc/wifi/bcmdhd_sta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/vendor/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
-
-# NTFS/ exFAT
-TARGET_EXFAT_DRIVER := sdfat
-TARGET_KERNEL_HAVE_NTFS := true
 
