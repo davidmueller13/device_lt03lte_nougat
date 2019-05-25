@@ -126,7 +126,6 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    init.crda.sh \
     init.qcom.rc \
     init.qcom.power.rc \
     init.qcom.usb.rc \
@@ -152,7 +151,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libnetcmdiface \
     macloader \
-    hostapd_default.conf \
     libwpa_client \
     
 PRODUCT_COPY_FILES += \
