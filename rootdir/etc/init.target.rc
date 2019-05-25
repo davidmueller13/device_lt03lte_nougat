@@ -290,7 +290,7 @@ on boot
     chown system system /sys/class/camera/rear/rear_camfw
     chown system system /sys/class/camera/rear/rear_camfw_load
     chown system system /sys/class/camera/rear/rear_camtype
-    chown system radio /sys/class/camera/flash/rear_flash
+    chown system system /sys/class/camera/flash/rear_flash
     chown system system /sys/class/camera/front/front_camfw
     chown system system /sys/class/camera/front/front_camtype
 

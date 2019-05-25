@@ -223,10 +223,10 @@ on boot
     chmod 0664  /sys/class/leds/led:rgb_blue/blink
 
     chmod 666 /sys/class/camera/flash/rear_flash
-    chown system radio /sys/class/camera/flash/rear_flash
+    chown system system /sys/class/camera/flash/rear_flash
     
     chmod 0660 /sys/class/leds/torch-sec1/brightness
-    chown system camera /sys/class/leds/torch-sec1/brightness
+    chown system system /sys/class/leds/torch-sec1/brightness
  
     chown system system /sys/class/sec/sec_touchkey/keypad_enable
     chmod 0660 /sys/class/sec/sec_touchkey/keypad_enable
