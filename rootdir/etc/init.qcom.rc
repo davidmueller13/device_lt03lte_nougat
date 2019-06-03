@@ -465,7 +465,7 @@ service qmuxd /system/vendor/bin/qmuxd
     user radio
     group radio audio bluetooth gps oem_2950 log
 
-service sensors /system/bin/sensors.qcom
+service sensors /system/vendor/bin/sensors.qcom
     class late_start
     user root
     group root
@@ -586,7 +586,6 @@ on property:sys.boot_completed=1
     restorecon /data/data/com.android.providers.telephony/databases
     restorecon /data/data/com.android.providers.telephony/shared_prefs
     
-
 service ds_fmc_appd /system/bin/ds_fmc_appd -p "rmnet0" -D
     class late_start
     group radio wifi inet
@@ -620,7 +619,7 @@ on property:persist.sys.ssr.restart_level=3
     write /sys/bus/msm_subsys/devices/subsys2/restart_level related
     write /sys/bus/msm_subsys/devices/subsys3/restart_level related
 
-service hvdcp /system/bin/hvdcp
+service hvdcp /system/vendor/bin/hvdcp
     class core
     user root
     group root
