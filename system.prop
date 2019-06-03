@@ -5,6 +5,22 @@
 # Art
 dalvik.vm.dex2oat-swap=false
 
+# Audio
+af.fast_track_multiplier=1
+audio.deep_buffer.media=true
+audio.offload.buffer.size.kb=32
+audio.offload.pcm.16bit.enable=true
+audio.offload.pcm.24bit.enable=true
+audio.offload.video=true
+persist.vendor.audio.fluence.speaker=true
+persist.vendor.audio.fluence.voicecall=true
+persist.vendor.audio.fluence.voicerec=false
+ro.vendor.audio.sdk.fluencetype=fluence
+vendor.audio.offload.multiple.enabled=false
+vendor.audio_hal.period_size=192
+vendor.dedicated.device.for.voip=true
+vendor.voice.path.for.pcm.voip=false
+
 # Camera
 camera2.portability.force_api=1
 
@@ -25,6 +41,9 @@ ro.gps.agps_provider=1
 ro.qc.sdk.izat.premium_enabled=0
 ro.qc.sdk.izat.service_mask=0x0
 
+# Media
+persist.media.treble_omx=false
+
 # Perf
 ro.vendor.extension_library=/vendor/lib/libqti-perfd-client.so
 
@@ -36,8 +55,17 @@ rild.libpath=/system/vendor/lib/libsec-ril.so
 ro.ril.telephony.qan_resp_strings=6
 ro.telephony.mms_data_profile=5
 
+ro.telephony.default_network=9
+telephony.lteOnGsmDevice=1
+
+# Ril sends only one RIL_UNSOL_CALL_RING, so set call_ring.multiple to false
+ro.telephony.call_ring.multiple=0
+
 # Sensors
 debug.sensors=1
+
+# Tethering
+net.tethering.noprovisioning=true
 
 # Vendor security patch level
 ro.lineage.build.vendor_security_patch=2017-04-01

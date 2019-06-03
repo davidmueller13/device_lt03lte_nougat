@@ -47,15 +47,9 @@ PRODUCT_COPY_FILES += \
 # Boot animation
 TARGET_SCREEN_HEIGHT := 1600
 TARGET_SCREEN_WIDTH := 2560
-
-# BoringSSL compatability wrapper
-PRODUCT_PACKAGES += \
-    libboringssl-compat
     
 # Camera
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider@2.4-impl \
-    camera.device@1.0-impl \
     camera.msm8974 \
     libshim_camera
 

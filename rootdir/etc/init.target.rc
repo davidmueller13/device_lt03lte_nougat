@@ -478,6 +478,7 @@ on boot
 # IR_LED
     chown system radio /sys/class/sec/sec_ir/ir_send
     chown system radio /sys/class/sec/sec_ir/ir_send_result
+    
 # Permission for HALL IC
     chown system radio /sys/class/sec/sec_key/hall_detect
 
@@ -543,6 +544,15 @@ service qcamerasvr /vendor/bin/mm-qcamera-daemon
     user camera
     group camera system inet input graphics bluetooth
 
+on property:init.svc.media=restarting
+    restart qcamerasvr
+
+on property:init.svc.servicemanager=restarting
+    restart qcamerasvr
+    
+on property:sys.boot_completed=1
+    restart mediaserver
+
 service qseecomd /vendor/bin/qseecomd
    class core
    user root
@@ -560,9 +570,14 @@ service thermal-engine /vendor/bin/thermal-engine
    group radio system
 
 service time_daemon /vendor/bin/time_daemon
-   class late_start
+   class main
    user root
    group root
+
+service adsprpcd /vendor/bin/adsprpcd
+   class main
+   user media
+   group media
 
 service audiod /system/bin/audiod
     class late_start
