@@ -544,15 +544,6 @@ service qcamerasvr /vendor/bin/mm-qcamera-daemon
     user camera
     group camera system inet input graphics bluetooth
 
-on property:init.svc.media=restarting
-    restart qcamerasvr
-
-on property:init.svc.servicemanager=restarting
-    restart qcamerasvr
-    
-on property:sys.boot_completed=1
-    restart mediaserver
-
 service qseecomd /vendor/bin/qseecomd
    class core
    user root
