@@ -493,6 +493,8 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
 
 service macloader /vendor/bin/macloader
     class late_start
+    user system
+    group system wifi
     oneshot
 #    seclabel u:r:macloader:s0
     
