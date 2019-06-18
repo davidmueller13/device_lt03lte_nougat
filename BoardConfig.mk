@@ -68,9 +68,6 @@ LZMA_RAMDISK_TARGETS := recovery
 
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
-
-TARGET_LD_SHIM_LIBS += \
-	/system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
 	
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/bin/mediaserver=22 \
