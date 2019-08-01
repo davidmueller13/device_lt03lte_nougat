@@ -276,6 +276,9 @@ on boot
     # connections on high-throughput links get dropped when
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
+    
+    # default country code
+    setprop ro.boot.wificountrycode 00
 
 # msm specific files that need to be created on /data
 on post-fs-data
