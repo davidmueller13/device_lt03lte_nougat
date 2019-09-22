@@ -14,4 +14,7 @@
 # limitations under the License.
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/lineage_lt03lte.mk
+    $(LOCAL_DIR)/davidos_lt03lte.mk
+    
+COMMON_LUNCH_CHOICES := \
+    davidos_lt03lte-userdebug
