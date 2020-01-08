@@ -30,6 +30,7 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 # Audio
 AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
 USE_CUSTOM_AUDIO_POLICY := 1
+USE_XML_AUDIO_POLICY_CONF := 1
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
@@ -51,6 +52,8 @@ TARGET_KEYMASTER_SKIP_WAITING_FOR_QSEE := true
 # HIDL
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 
+TARGET_INIT_VENDOR_LIB := libinit.msm8974
+
 # Kernel
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
@@ -62,18 +65,21 @@ BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
 TARGET_KERNEL_CONFIG := lineageos_lt03lte_defconfig
-TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
 TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
 LZMA_RAMDISK_TARGETS := recovery
 
 # Legacy BLOB Support
 TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
 	
+TARGET_LD_SHIM_LIBS = \
+    /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
+	
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/bin/mediaserver=22 \
     /system/vendor/bin/mm-qcamera-daemon=22 \
     /system/vendor/bin/hw/android.hardware.sensors@1.0-service.samsung8974=22 \
-    /system/vendor/bin/hw/rild=27
+    /system/vendor/bin/hw/rild=27 \
+    /system/vendor/lib/libarcsoft_nighthawk.so=22
 
 # Filesystem
 BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336
@@ -130,6 +136,8 @@ WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/dhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA     := "/system/vendor/etc/wifi/bcmdhd_sta.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/system/vendor/etc/wifi/bcmdhd_apsta.bin"
 WIFI_DRIVER_OPERSTATE_PATH := "/sys/class/net/wlan0/operstate"
+WPA_SUPPLICANT_USE_HIDL     := true
+WIFI_HIDL_FEATURE_DISABLE_AP_MAC_RANDOMIZATION := true
 
 WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/vendor/etc/wifi/bcmdhd_sta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/vendor/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/vendor/etc/wifi/nvram_net.txt"
