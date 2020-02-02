@@ -38,6 +38,9 @@ on early-init
 
 on init
 
+	# Mount and bind audio_policy_configuration.xml in /vendor
+    mount none /system/etc/audio_policy_configuration.xml /vendor/etc/audio/audio_policy_configuration.xml bind
+
     # Set permissions for persist partition
     mkdir /persist 0771 system system
     mkdir /mnt/shell/emulated 0700 shell shell
@@ -436,9 +439,9 @@ service sensors /system/vendor/bin/sensors.qcom
     disabled
 
 service netmgrd /system/vendor/bin/netmgrd
-    class main
+    class core
     user root
-	group radio
+	group root wifi wakelock radio inet
 
 # Adjust socket buffer to enlarge TCP receive window for high bandwidth
 # but only if ro.data.large_tcp_window_size property is set.
@@ -451,6 +454,7 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
     interface android.hardware.wifi.supplicant@1.0::ISupplicant default
     interface android.hardware.wifi.supplicant@1.1::ISupplicant default
     interface android.hardware.wifi.supplicant@1.2::ISupplicant default
+    interface android.hardware.wifi.supplicant@1.3::ISupplicant default
     class main
     socket wpa_wlan0 dgram 660 wifi wifi
     disabled

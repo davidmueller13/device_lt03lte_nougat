@@ -15,7 +15,7 @@
 # limitations under the License.
 
 # Inherit from common msm8974
--include device/samsung/msm8974-common/BoardConfigCommon.mk
+include device/samsung/msm8974-common/BoardConfigCommon.mk
 
 COMMON_PATH := device/samsung/lt03lte
 
@@ -48,6 +48,10 @@ TARGET_MSM8974_1440P_EGL_WORKAROUND := true
 
 # Encryption
 TARGET_KEYMASTER_SKIP_WAITING_FOR_QSEE := true
+
+# Filesystem
+BOARD_ROOT_EXTRA_FOLDERS := efs firmware/radio firmware/adsp firmware-modem
+BOARD_ROOT_EXTRA_SYMLINKS := /data/tombstones:/tombstones
 
 # HIDL
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
@@ -123,6 +127,9 @@ TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # SELinux
 #-include $(COMMON_PATH)/sepolicy/sepolicy.mk
+
+# Wait for qseecomd
+TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI     := true
