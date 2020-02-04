@@ -35,7 +35,8 @@ dalvik.vm.heapmaxfree=8m
 # Display
 debug.hwui.use_buffer_age=false
 debug.sf.enable_gl_backpressure=1
-debug.stagefright.ccodec=0
+debug.sf.latch_unsignaled=1
+persist.graphics.vulkan.disable=true
 
 # GPS
 persist.gps.qc_nlp_in_use=0
@@ -45,6 +46,9 @@ ro.qc.sdk.izat.service_mask=0x0
 
 # Media
 persist.media.treble_omx=false
+debug.stagefright.ccodec=0
+debug.stagefright.omx_default_rank.sw-audio=1
+debug.stagefright.omx_default_rank=0
 
 # Perf
 ro.vendor.extension_library=/vendor/lib/libqti-perfd-client.so
