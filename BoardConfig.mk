@@ -126,7 +126,7 @@ TARGET_RIL_VARIANT := caf
 TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # SELinux
-#-include $(COMMON_PATH)/sepolicy/sepolicy.mk
+BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy
 
 # Wait for qseecomd
 TARGET_KEYMASTER_WAIT_FOR_QSEE := true

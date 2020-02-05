@@ -1,0 +1,2 @@
+allow init sysfs_graphics:file { open read };
+allow init sysfs_sec_touchkey:file { open write };
