@@ -47,7 +47,7 @@ BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
 TARGET_MSM8974_1440P_EGL_WORKAROUND := true
 
 # Encryption
-TARGET_KEYMASTER_SKIP_WAITING_FOR_QSEE := true
+#TARGET_KEYMASTER_SKIP_WAITING_FOR_QSEE := true
 
 # Filesystem
 BOARD_ROOT_EXTRA_FOLDERS := efs firmware/radio firmware/adsp firmware-modem
