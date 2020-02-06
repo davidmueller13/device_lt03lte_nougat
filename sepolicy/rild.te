@@ -1,2 +1,1 @@
 allow rild device:chr_file ioctl;
-allow rild proc_qtaguid_stat:file { open read };
