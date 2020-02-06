@@ -46,9 +46,6 @@ BOARD_HARDWARE_CLASS += $(COMMON_PATH)/lineagehw
 # Display
 TARGET_MSM8974_1440P_EGL_WORKAROUND := true
 
-# Encryption
-#TARGET_KEYMASTER_SKIP_WAITING_FOR_QSEE := true
-
 # Filesystem
 BOARD_ROOT_EXTRA_FOLDERS := efs firmware/radio firmware/adsp firmware-modem
 BOARD_ROOT_EXTRA_SYMLINKS := /data/tombstones:/tombstones
@@ -127,9 +124,6 @@ TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # SELinux
 BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy
-
-# Wait for qseecomd
-TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI     := true
