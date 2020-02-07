@@ -152,6 +152,11 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensors/_hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/_hals.conf
     
+PRODUCT_PACKAGES += \
+    android.hardware.sensors@1.0-impl.samsung8974 \
+    android.hardware.sensors@1.0-service.samsung8974 \
+    sensors.msm8974
+    
 # Shipping API level (for CTS backward compatibility)
 PRODUCT_SHIPPING_API_LEVEL := 19
     
