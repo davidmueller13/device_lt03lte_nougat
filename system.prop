@@ -77,6 +77,7 @@ net.tethering.noprovisioning=true
 
 # Vendor security patch level
 ro.lineage.build.vendor_security_patch=2017-04-01
+ro.control_privapp_permissions=disable
 
 # Wifi
 wifi.interface=wlan0

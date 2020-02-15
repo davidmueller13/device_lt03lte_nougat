@@ -81,6 +81,8 @@ TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/vendor/bin/hw/android.hardware.sensors@1.0-service.samsung8974=22 \
     /system/vendor/bin/hw/rild=27 \
     /system/vendor/lib/libarcsoft_nighthawk.so=22
+    
+MALLOC_SVELTE := true
 
 # Filesystem
 BOARD_BOOTIMAGE_PARTITION_SIZE := 11534336
@@ -118,6 +120,9 @@ TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 TARGET_RIL_VARIANT := caf
+
+# Security patch level
+VENDOR_SECURITY_PATCH := 2017-04-01
 
 # Sensors
 TARGET_NO_SENSOR_PERMISSION_CHECK := true
