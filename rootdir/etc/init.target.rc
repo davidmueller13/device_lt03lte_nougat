@@ -51,6 +51,8 @@ on fs
      write /sys/kernel/boot_adsp/boot 1
      setprop qcom.audio.init complete
 
+	mount none /system/etc/gps.conf /system/etc/gps_debug.conf bind
+	
     restorecon_recursive /persist
     restorecon_recursive /efs
 
