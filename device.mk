@@ -162,6 +162,9 @@ PRODUCT_SHIPPING_API_LEVEL := 19
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine-8974.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-8974.conf
 
+# Vendor properties
+-include $(LOCAL_PATH)/system_prop.mk
+
 # Vibrator
 PRODUCT_PACKAGES += \
     android.hardware.vibrator@1.0-impl
