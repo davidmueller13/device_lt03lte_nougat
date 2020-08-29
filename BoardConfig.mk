@@ -106,9 +106,6 @@ WITH_DEXPREOPT := true
 TARGET_POWERHAL_VARIANT := qcom
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(COMMON_PATH)/power/power_ext.c
 
-# Properties
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
-
 # TWRP Support - Optional
 ifeq ($(WITH_TWRP),true)
 -include $(COMMON_PATH)/twrp.mk
