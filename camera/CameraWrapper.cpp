@@ -22,13 +22,12 @@
 */
 
 #define LOG_TAG "CameraWrapper"
+#include <log/log.h>
 
 #include <camera/CameraParameters.h>
 #include <camera/Camera.h>
-#include <cutils/log.h>
 #include <hardware/camera.h>
 #include <hardware/hardware.h>
-#include <utils/String8.h>
 #include <utils/threads.h>
 
 #define BACK_CAMERA_ID 0
@@ -46,7 +45,7 @@ static const char ZSL_OFF[] = "off";
 using namespace android;
 
 static Mutex gCameraWrapperLock;
-static camera_module_t *gVendorModule = 0;
+static camera_module_t* gVendorModule = 0;
 
 static camera_notify_callback gUserNotifyCb = NULL;
 static camera_data_callback gUserDataCb = NULL;
@@ -55,12 +54,11 @@ static camera_request_memory gUserGetMemory = NULL;
 static void *gUserCameraDevice = NULL;
 
 static int num_cameras = 0;
-static char **fixed_set_params = NULL;
+static char** fixed_set_params = NULL;
 
-static int camera_device_open(const hw_module_t *module, const char *name,
-        hw_device_t **device);
+static int camera_device_open(const hw_module_t* module, const char* name, hw_device_t** device);
 static int camera_get_number_of_cameras(void);
-static int camera_get_camera_info(int camera_id, struct camera_info *info);
+static int camera_get_camera_info(int camera_id, struct camera_info* info);
 
 static struct hw_module_methods_t camera_module_methods = {
     .open = camera_device_open,
@@ -68,24 +66,24 @@ static struct hw_module_methods_t camera_module_methods = {
 
 camera_module_t HAL_MODULE_INFO_SYM = {
     .common = {
-         .tag = HARDWARE_MODULE_TAG,
-         .module_api_version = CAMERA_MODULE_API_VERSION_1_0,
-         .hal_api_version = HARDWARE_HAL_API_VERSION,
-         .id = CAMERA_HARDWARE_MODULE_ID,
-         .name = "LT03LTE Camera Wrapper",
-         .author = "The LineageOS Project",
-         .methods = &camera_module_methods,
-         .dso = NULL,
-         .reserved = {0},
+			.tag = HARDWARE_MODULE_TAG,
+			.module_api_version = CAMERA_MODULE_API_VERSION_1_0,
+			.hal_api_version = HARDWARE_HAL_API_VERSION,
+			.id = CAMERA_HARDWARE_MODULE_ID,
+			.name = "LT03LTE Camera Wrapper",
+			.author = "The LineageOS Project",
+            .methods = &camera_module_methods,
+            .dso = NULL,     /* remove compilation warnings */
+            .reserved = {0}, /* remove compilation warnings */
     },
     .get_number_of_cameras = camera_get_number_of_cameras,
     .get_camera_info = camera_get_camera_info,
-    .set_callbacks = NULL,
-    .get_vendor_tag_ops = NULL,
-    .open_legacy = NULL,
-    .set_torch_mode = NULL,
-    .init = NULL,
-    .reserved = {0},
+    .set_callbacks = NULL,      /* remove compilation warnings */
+    .get_vendor_tag_ops = NULL, /* remove compilation warnings */
+    .open_legacy = NULL,        /* remove compilation warnings */
+    .set_torch_mode = NULL,     /* remove compilation warnings */
+    .init = NULL,               /* remove compilation warnings */
+    .reserved = {0},            /* remove compilation warnings */
 };
 
 typedef struct wrapper_camera_device {
@@ -99,20 +97,17 @@ typedef struct wrapper_camera_device {
     __wrapper_dev->vendor->ops->func(__wrapper_dev->vendor, ##__VA_ARGS__); \
 })
 
-#define CAMERA_ID(device) (((wrapper_camera_device_t *)device)->id)
+#define CAMERA_ID(device) (((wrapper_camera_device_t*)(device))->id)
 
 static int check_vendor_module()
 {
-    int rv;
+    int rv = 0;
     ALOGV("%s", __FUNCTION__);
+    
+    if (gVendorModule) return 0;
 
-    if (gVendorModule)
-        return 0;
-
-    rv = hw_get_module_by_class("camera", "vendor",
-            (const hw_module_t**)&gVendorModule);
-    if (rv)
-        ALOGE("Failed to open vendor camera module %d", rv);
+    rv = hw_get_module_by_class("camera", "vendor", (const hw_module_t**)&gVendorModule);
+    if (rv) ALOGE("failed to open vendor camera module");
 
     return rv;
 }
@@ -735,8 +730,8 @@ static int camera_device_open(const hw_module_t *module, const char *name,
             ALOGE("Vendor camera open fail");
             goto fail;
         }
-        ALOGV("%s: Got vendor camera device 0x%08X",
-                __FUNCTION__, (uintptr_t)(camera_device->vendor));
+        ALOGV("%s: got vendor camera device 0x%08X", __FUNCTION__,
+              (uintptr_t)(camera_device->vendor));
 
         camera_ops = (camera_device_ops_t *) calloc(1, sizeof(*camera_ops));
         if (!camera_ops) {
@@ -747,7 +742,7 @@ static int camera_device_open(const hw_module_t *module, const char *name,
 
         camera_device->base.common.tag = HARDWARE_DEVICE_TAG;
         camera_device->base.common.version = HARDWARE_DEVICE_API_VERSION(1, 0);
-        camera_device->base.common.module = (hw_module_t *)(module);
+        camera_device->base.common.module = (hw_module_t*)(module);
         camera_device->base.common.close = camera_device_close;
         camera_device->base.ops = camera_ops;
 
@@ -806,11 +801,9 @@ static int camera_get_number_of_cameras(void)
     return num_cameras;
 }
 
-static int camera_get_camera_info(int camera_id, struct camera_info *info)
-{
+static int camera_get_camera_info(int camera_id, struct camera_info* info) {
     ALOGV("%s, cam %d", __FUNCTION__, camera_id);
-    if (check_vendor_module())
-        return 0;
+	if (check_vendor_module()) return 0;
     int ret = gVendorModule->get_camera_info(camera_id, info);
     ALOGV("%s: cam %d, facing %d, orient %d, version %d, ret %d",
         __FUNCTION__, camera_id, info->facing, info->orientation,
