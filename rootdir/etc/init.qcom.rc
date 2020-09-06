@@ -107,6 +107,10 @@ on boot
     chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
 
+	# set gps loc launcher
+    chown gps gps /vendor/bin/loc_launcher
+    chmod 0775 /vendor/bin/loc_launcher
+
     #Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 2770 radio radio
     mkdir /dev/socket/qmux_audio 2770 media audio
@@ -405,6 +409,11 @@ service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class main
     user root
     oneshot
+
+service loc_launcher /vendor/bin/loc_launcher
+    #loc_launcher will start as root and set its uid to gps
+    class late_start
+    group gps inet net_raw diag oem_2950 net_admin wifi
 
 service rmt_storage /vendor/bin/rmt_storage
     class core
