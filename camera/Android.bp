@@ -1,5 +1,0 @@
-cc_library_static {
-    name: "camera_parameters_samsung_msm8974",
-    include_dirs: ["device/samsung/lt03lte/include"],
-    srcs: ["CameraParameters.cpp"],
-}
