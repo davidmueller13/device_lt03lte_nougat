@@ -10,7 +10,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
 	af.fast_track_multiplier=1 \
 	audio.deep_buffer.media=true \
-	audio.offload.buffer.size.kb=32 \
 	audio.offload.pcm.16bit.enable=true \
 	audio.offload.pcm.24bit.enable=true \
 	audio.offload.video=true \
@@ -59,8 +58,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Memory optimizations
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.vendor.qti.am.reschedule_service=true \
-    ro.vendor.qti.sys.fw.bservice_enable=true
+    ro.vendor.qti.am.reschedule_service=true
 
 # Perf
 PRODUCT_PROPERTY_OVERRIDES += \

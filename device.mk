@@ -77,6 +77,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Gestures
 PRODUCT_PACKAGES += \
     org.lineageos.keyhandler   
+   
+# HW crypto
+PRODUCT_PACKAGES += \
+    vendor.qti.hardware.cryptfshw@1.0-service-ioctl-qti
     
 # Input device
 PRODUCT_COPY_FILES += \
@@ -95,10 +99,6 @@ PRODUCT_COPY_FILES += \
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8974
-
-# HW crypto
-PRODUCT_PACKAGES += \
-    vendor.qti.hardware.cryptfshw@1.0-service-ioctl-qti
 
 # Lights
 PRODUCT_PACKAGES += \
