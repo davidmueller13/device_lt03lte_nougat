@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 The CyanogenMod Project
+ * Copyright (c) 2014 The CyanogenMod Project
  * Copyright (c) 2018 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,6 @@
 #define TOUCHKEY_POWER "/sys/class/input/input2/enabled"
 #define SPEN_POWER "/sys/class/input/input3/enabled"
 #define TSP_POWER "/sys/class/input/input4/enabled"
-#define GPIO_KEYS_POWER "/sys/class/input/input11/enabled"
 
 static void sysfs_write(char *path, char *s) {
     char buf[80];
@@ -52,11 +51,4 @@ void power_set_interactive_ext(int on) {
     sysfs_write(TSP_POWER, on ? "1" : "0");
     sysfs_write(TOUCHKEY_POWER, on ? "1" : "0");
     sysfs_write(SPEN_POWER, on ? "1" : "0");
-    sysfs_write(GPIO_KEYS_POWER, on ? "1" : "0");
 }
-
-void cm_power_set_interactive_ext(int on) {
-    power_set_interactive_ext(on);
-}
-
-
