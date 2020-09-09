@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Inherit from common msm8974
+# inherit from common msm8974
 include device/samsung/msm8974-common/BoardConfigCommon.mk
 
 COMMON_PATH := device/samsung/lt03lte
@@ -49,7 +49,7 @@ DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=22 msm_rtb.filter=0x37 ehci-hcd.park=3
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=22 msm_rtb.filter=0x37 ehci-hcd.park=3 zcache.enabled=1 zcache.compressor=lz4
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_PAGESIZE := 2048
@@ -60,9 +60,6 @@ TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
 LZMA_RAMDISK_TARGETS := recovery
 
 # Legacy BLOB Support
-TARGET_NEEDS_PLATFORM_TEXT_RELOCATIONS := true
-MALLOC_SVELTE := true
-	
 TARGET_LD_SHIM_LIBS = \
     /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
 	
@@ -133,3 +130,6 @@ WIFI_DRIVER_FW_PATH_STA     := "/vendor/etc/wifi/bcmdhd_sta.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/vendor/etc/wifi/bcmdhd_apsta.bin"
 WIFI_DRIVER_NVRAM_PATH_PARAM:= "/sys/module/dhd/parameters/nvram_path"
 WIFI_DRIVER_NVRAM_PATH      := "/vendor/etc/wifi/nvram_net.txt"
+
+# Inherit from the proprietary version
+-include vendor/samsung/lt03lte/BoardConfigVendor.mk

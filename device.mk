@@ -17,9 +17,6 @@
 
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# Get non-open-source specific aspects
-$(call inherit-product-if-exists, vendor/samsung/lt03lte/lt03lte-vendor.mk)
-
 # Declare tablet
 PRODUCT_CHARACTERISTICS := tablet
 
@@ -63,8 +60,8 @@ PRODUCT_PACKAGES += \
     libshim_camera
   
 # Doze
-#PRODUCT_PACKAGES += \
-#    SamsungDoze
+PRODUCT_PACKAGES += \
+    SamsungDoze
     
 # Gestures
 PRODUCT_PACKAGES += \
@@ -133,15 +130,12 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensor_def_qcomdev.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensor_def_qcomdev.conf \
     $(LOCAL_PATH)/configs/sensors/_hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/_hals.conf
     
-# Shipping API level (for CTS backward compatibility)
-PRODUCT_SHIPPING_API_LEVEL := 19
+# Shipping API level
+$(call inherit-product, vendor/lineage/build/target/product/product_launched_with_j_mr2.mk)
     
 # Thermal
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine-8974.conf:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-engine-8974.conf
-
-# Vendor properties
--include $(LOCAL_PATH)/system_prop.mk
 
 # Vibrator
 PRODUCT_PACKAGES += \
@@ -150,10 +144,16 @@ PRODUCT_PACKAGES += \
 # WiFi
 PRODUCT_PACKAGES += \
     libnetcmdiface \
-    macloader \
-    libwpa_client \
+    macloader
+    
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/wpa_supplicant_overlay.conf \
+    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:$(TARGET_COPY_OUT_VENDOR)/etc/wifi/p2p_supplicant_overlay.conf
     
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
+
+# Get non-open-source specific aspects
+$(call inherit-product-if-exists, vendor/samsung/lt03lte/lt03lte-vendor.mk)
 
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
