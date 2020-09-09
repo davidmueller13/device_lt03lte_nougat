@@ -28,18 +28,24 @@
 #
 #
 
+on early-init
+    symlink /data/tombstones /tombstones
+
 on fs
     write /sys/devices/msm_sdcc.1/mmc_host/mmc1/power/control on
     write /sys/devices/msm_sdcc.3/mmc_host/mmc2/power/control on
 
     mount_all /vendor/etc/fstab.qcom
 
-    setprop ro.crypto.fuse_sdcard true
-
     # Keeping following partitions outside fstab file. As user may not have
     # these partition flashed on the device. Failure to mount any partition in fstab file
     # results in failure to launch late-start class.
 
+    wait /dev/block/platform/msm_sdcc.1/by-name/persist
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/persist /persist nosuid nodev noatime data=ordered,nomblk_io_submit,noauto_da_alloc,errors=panic
+
+    wait /dev/block/platform/msm_sdcc.1/by-name/efs
+    mount ext4 /dev/block/platform/msm_sdcc.1/by-name/efs /efs nosuid nodev noatime data=ordered,nomblk_io_submit,noauto_da_alloc,errors=panic
     chown system radio /efs
     chmod 0771 /efs
 #firmware_file
@@ -50,21 +56,12 @@ on fs
     mount sdfat /dev/block/platform/msm_sdcc.1/by-name/modem /firmware-modem ro shortname=lower,uid=1000,gid=1000,dmask=227,fmask=337
      write /sys/kernel/boot_adsp/boot 1
      setprop qcom.audio.init complete
-
-	mount none /system/etc/gps.conf /system/etc/gps_debug.conf bind
 	
     restorecon_recursive /persist
     restorecon_recursive /efs
 
-    # Start HW service manager early
-    start hwservicemanager
- on late-fs
-    # Start services for bootanim
-    start vendor.configstore-hal
-    start surfaceflinger
-    start bootanim
-    start vendor.gralloc-2-0
-     mount_all fstab.qcom --late
+	# GnssConfiguration doesn't actually look at gps.conf, just the debug file
+    mount none /system/etc/gps.conf /system/etc/gps_debug.conf bind
 
 on post-fs-data
     mkdir /data/tombstones 0771 system system
@@ -158,14 +155,6 @@ on boot
 
 # Fingerprint
     mkdir /dev/validity 0775 system system
-
-# SEC DVFS sysfs node
-    chown radio system /sys/power/cpufreq_max_limit
-    chown radio system /sys/power/cpufreq_min_limit
-    chown radio system /sys/power/cpufreq_table
-    chmod 664 /sys/power/cpufreq_max_limit
-    chmod 664 /sys/power/cpufreq_min_limit
-    chmod 664 /sys/power/cpufreq_table
 
     chown radio system /sys/devices/system/cpu/kernel_max
     chmod 664 /sys/devices/system/cpu/kernel_max
@@ -274,12 +263,12 @@ on boot
     chown system system /sys/class/sec/sec_touchkey/brightness
 
 # Permissions for Camera
-    chown system system /sys/class/camera/rear/rear_camfw
-    chown system system /sys/class/camera/rear/rear_camfw_load
-    chown system system /sys/class/camera/rear/rear_camtype
-    chown system system /sys/class/camera/flash/rear_flash
-    chown system system /sys/class/camera/front/front_camfw
-    chown system system /sys/class/camera/front/front_camtype
+    chown system radio /sys/class/camera/rear/rear_camfw
+    chown system radio /sys/class/camera/rear/rear_camfw_load
+    chown system radio /sys/class/camera/rear/rear_camtype
+    chown system radio /sys/class/camera/flash/rear_flash
+    chown system radio /sys/class/camera/front/front_camfw
+    chown system radio /sys/class/camera/front/front_camtype
 
     #OTG Test
     chown system radio /sys/class/host_notify/usb_otg/booster
@@ -383,11 +372,15 @@ on boot
     chown system radio /sys/class/sensors/grip_sensor/erase_cal
 # SensorHub
     chown system radio /sys/class/sensors/ssp_sensor/enable
+    chown system radio /sys/class/sensors/ssp_sensor/enable_irq
+    chown system radio /sys/class/sensors/ssp_sensor/mcu_dump
     chown system radio /sys/class/sensors/ssp_sensor/mcu_rev
     chown system radio /sys/class/sensors/ssp_sensor/mcu_name
     chown system radio /sys/class/sensors/ssp_sensor/mcu_test
     chown system radio /sys/class/sensors/ssp_sensor/mcu_reset
     chown system radio /sys/class/sensors/ssp_sensor/mcu_update
+    chown system radio /sys/class/sensors/ssp_sensor/mcu_update2
+    chown system radio /sys/class/sensors/ssp_sensor/mcu_update_ums
     chown system radio /sys/class/sensors/ssp_sensor/mcu_sleep_test
     chown system radio /sys/class/sensors/ssp_sensor/ori_poll_delay
     chown system radio /sys/class/sensors/ssp_sensor/mag_poll_delay
@@ -398,6 +391,9 @@ on boot
     chown system radio /sys/class/sensors/ssp_sensor/step_det_poll_delay
     chown system radio /sys/class/sensors/ssp_sensor/gyro_poll_delay
     chown system radio /sys/class/sensors/ssp_sensor/ssp_flush
+    chown system radio /sys/class/sensors/ssp_sensor/step_det_poll_delay
+    chown system radio /sys/class/sensors/ssp_sensor/uncal_mag_poll_delay
+    chown system radio /sys/class/sensors/ssp_sensor/uncalib_gyro_poll_delay
     chmod 0600 /dev/batch_io
     chown system system /dev/batch_io
 
@@ -547,11 +543,6 @@ service thermal-engine /vendor/bin/thermal-engine
    class core
    user root
    group radio system
-
-service time_daemon /vendor/bin/time_daemon
-   class main
-   user root
-   group root
 
 service adsprpcd /vendor/bin/adsprpcd
    class main

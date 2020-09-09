@@ -60,15 +60,7 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     camera.msm8974 \
-    libshim_camera \
-    libshim_unwind
-
-# Display
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.hdcp2.rx=tz \
-    ro.qualcomm.cabl=1 \
-    ro.secwvk=144 \
-    ro.sf.lcd_density=320
+    libshim_camera
   
 # Doze
 #PRODUCT_PACKAGES += \
@@ -100,10 +92,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     keystore.msm8974
 
-# Lights
-PRODUCT_PACKAGES += \
-    android.hardware.light@2.0-service.samsung
-
 # Media profiles
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/media_profiles_V1_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_profiles_V1_0.xml \
@@ -123,7 +111,6 @@ PRODUCT_COPY_FILES += \
 # Qualcomm
 PRODUCT_PACKAGES += \
     libcnefeatureconfig \
-    libxml2 \
     librmnetctl
 
 # Radio
@@ -143,15 +130,8 @@ PRODUCT_PACKAGES += \
 
 # Sensors
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/sensor_def_qcomdev.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensor_def_qcomdev.conf
-    
-PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/sensor_def_qcomdev.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensor_def_qcomdev.conf \
     $(LOCAL_PATH)/configs/sensors/_hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/_hals.conf
-    
-PRODUCT_PACKAGES += \
-    android.hardware.sensors@1.0-impl.samsung8974 \
-    android.hardware.sensors@1.0-service.samsung8974 \
-    sensors.msm8974
     
 # Shipping API level (for CTS backward compatibility)
 PRODUCT_SHIPPING_API_LEVEL := 19
@@ -169,7 +149,6 @@ PRODUCT_PACKAGES += \
     
 # WiFi
 PRODUCT_PACKAGES += \
-	android.hardware.wifi@1.0-service.lt03lte \
     libnetcmdiface \
     macloader \
     libwpa_client \
