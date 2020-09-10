@@ -27,6 +27,7 @@ TARGET_OTA_ASSERT_DEVICE := lt03lte,lt03ltexx
 # Audio
 AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
 USE_CUSTOM_AUDIO_POLICY := 1
+USE_XML_AUDIO_POLICY_CONF := 1
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
@@ -49,7 +50,7 @@ DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 BOARD_CUSTOM_BOOTIMG := true
 BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=22 msm_rtb.filter=0x37 ehci-hcd.park=3 zcache.enabled=1 zcache.compressor=lz4
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 zcache.enabled=1 zcache.compressor=lz4
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_PAGESIZE := 2048
@@ -61,7 +62,8 @@ LZMA_RAMDISK_TARGETS := recovery
 
 # Legacy BLOB Support
 TARGET_LD_SHIM_LIBS = \
-    /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so
+    /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so \
+    /system/vendor/lib/libperipheral_client.so|libshim_binder.so
 	
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/bin/mediaserver=22 \

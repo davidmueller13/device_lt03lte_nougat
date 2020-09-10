@@ -130,6 +130,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/sensor_def_qcomdev.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensor_def_qcomdev.conf \
     $(LOCAL_PATH)/configs/sensors/_hals.conf:$(TARGET_COPY_OUT_VENDOR)/etc/sensors/_hals.conf
     
+# Shims
+PRODUCT_PACKAGES += \
+    libshim_binder
+    
 # Shipping API level
 $(call inherit-product, vendor/lineage/build/target/product/product_launched_with_j_mr2.mk)
     
