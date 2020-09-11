@@ -438,11 +438,6 @@ service sensors /system/vendor/bin/sensors.qcom
     group root
     disabled
 
-service netmgrd /system/vendor/bin/netmgrd
-    class core
-    user root
-	group root wifi wakelock radio inet
-
 # Adjust socket buffer to enlarge TCP receive window for high bandwidth
 # but only if ro.data.large_tcp_window_size property is set.
 on property:ro.data.large_tcp_window_size=true
