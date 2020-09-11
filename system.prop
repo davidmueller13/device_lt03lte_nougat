@@ -56,16 +56,14 @@ persist.radio.add_power_save=1
 rild.libpath=/system/vendor/lib/libsec-ril.so
 ro.ril.telephony.qan_resp_strings=6
 ro.telephony.mms_data_profile=5
+ro.telephony.get_imsi_from_sim=true
+ro.telephony.default_network=9
 
 # Sensors
 debug.sensors=1
 
-# Tethering
-net.tethering.noprovisioning=true
-
 # Vendor security patch level
 ro.lineage.build.vendor_security_patch=2017-04-01
-ro.control_privapp_permissions=disable
 
 # Wifi
 wifi.interface=wlan0

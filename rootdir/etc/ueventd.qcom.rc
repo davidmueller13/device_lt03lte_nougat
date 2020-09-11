@@ -35,10 +35,6 @@
 /dev/kgsl-2d0             0666   root       root
 /dev/kgsl-2d1             0666   root       root
 /dev/ion                  0664   system     system
-/dev/qmi                  0640   radio      radio
-/dev/qmi0                 0640   radio      radio
-/dev/qmi1                 0640   radio      radio
-/dev/qmi2                 0640   radio      radio
 /dev/rtc0                 0600   system     system
 /dev/smd0                 0660   system     system
 /dev/smd4                 0660   system     system
@@ -117,7 +113,6 @@
 /dev/adsprpc-smd          0664   system     system
 
 #permissions for audio
-/dev/adsp/*               0660   system     audio
 /dev/msm_qcelp            0660   system     audio
 /dev/msm_evrc             0660   system     audio
 /dev/msm_wma              0660   system     audio
@@ -136,7 +131,6 @@
 /dev/msm_acdb             0660   system     audio
 /dev/msm_cad              0660   system     audio
 /dev/msm_fm               0660   system     audio
-/dev/msm_mp3              0660   system     audio
 /dev/msm_mvs              0660   system     audio
 /dev/msm_pcm_lp_dec       0660   system     audio
 /dev/msm_preproc_ctl      0660   system     audio
