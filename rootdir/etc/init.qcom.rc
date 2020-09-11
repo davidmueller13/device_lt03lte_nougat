@@ -29,7 +29,6 @@
 import /vendor/etc/init/hw/init.qcom.usb.rc
 import /vendor/etc/init/hw/init.target.rc
 import /vendor/etc/init/hw/init.qcom.power.rc
-import /vendor/etc/init/hw/init.safailnet.rc
 
 on early-init
     setprop sys.boot_completed 0
@@ -477,6 +476,7 @@ on property:init.svc.macloader=stopped
 # end of wifi
 
 on property:sys.boot_completed=1
+	restart cameraserver
     write /sys/block/mmcblk0/queue/scheduler row
 
     # Configure the hardware properly
