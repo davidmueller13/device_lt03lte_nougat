@@ -16,3 +16,4 @@ allow init sysfs:file write;
 allow init hal_light_hwservice:hwservice_manager add;
 allow init hidl_base_hwservice:hwservice_manager add;
 allow init seapp_contexts_file:file read;
+allow init self:capability2 block_suspend;
