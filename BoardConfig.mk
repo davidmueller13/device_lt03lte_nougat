@@ -58,7 +58,7 @@ BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
 TARGET_KERNEL_CONFIG := lineage_lt03lte_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
-LZMA_RAMDISK_TARGETS := recovery
+BOARD_RAMDISK_USE_XZ := true
 
 # Legacy BLOB Support
 TARGET_LD_SHIM_LIBS = \
