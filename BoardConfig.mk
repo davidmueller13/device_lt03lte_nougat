@@ -87,9 +87,6 @@ TARGET_KERNEL_HAVE_NTFS := true
 BOARD_ROOT_EXTRA_FOLDERS := efs firmware/radio firmware/adsp firmware-modem
 BOARD_ROOT_EXTRA_SYMLINKS := /data/tombstones:/tombstones
 
-# Power HAL
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(COMMON_PATH)/power/power_ext.c
-
 # Properties
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
 
