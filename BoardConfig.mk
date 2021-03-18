@@ -93,11 +93,6 @@ TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
 # Pre-Optimize DEX
 WITH_DEXPREOPT := true
 
-# TWRP Support - Optional
-ifeq ($(WITH_TWRP),true)
--include $(COMMON_PATH)/twrp.mk
-endif
-
 # Recovery
 TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
 
