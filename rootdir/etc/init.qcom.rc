@@ -32,16 +32,9 @@ import /vendor/etc/init/hw/init.qcom.power.rc
 
 on early-init
     setprop sys.boot_completed 0
-
-    write /sys/block/mmcblk0/queue/read_ahead_kb 512
-    write /sys/block/mmcblk0/queue/scheduler noop
-
-on init
-
-   # Remove symlinks to avoid issues with migrate after nandroid restores
-    # Will be recreated at end of boot
-    rm /data/data/com.android.providers.telephony/databases
-    rm /data/data/com.android.providers.telephony/shared_prefs
+    
+    mount debugfs /sys/kernel/debug /sys/kernel/debug
+    chmod 0755 /sys/kernel/debug
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -58,8 +51,6 @@ on early-boot
     chown system system /sys/class/graphics/fb1/format_3d
 
 on boot
-
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
 
     # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
@@ -142,10 +133,9 @@ on boot
     # an ack packet comes out of order
     write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
 
-    # Set the console loglevel to < KERN_INFO
-    # Set the default message loglevel to KERN_INFO
-    # modified by SEC, SEC use a loglevel path with another way.
-    # write /proc/sys/kernel/printk "6 6 1 7"
+	# Set permissions for firmware path control
+    chown wifi wifi /sys/module/dhd/parameters/firmware_path
+    chown wifi wifi /sys/module/dhd/parameters/nvram_path
 
     # Flash storage isn't a good entropy source, and only causes locking
     # overhead in the kernel. Turn it off.
@@ -204,8 +194,8 @@ on boot
     chmod 666 /sys/class/camera/flash/rear_flash
     chown system system /sys/class/camera/flash/rear_flash
     
-    chmod 0660 /sys/class/leds/torch-sec1/brightness
-    chown system system /sys/class/leds/torch-sec1/brightness
+    chmod 0666 /sys/class/leds/torch-sec1/brightness
+    chown system camera /sys/class/leds/torch-sec1/brightness
  
     chown system system /sys/class/sec/sec_touchkey/keypad_enable
     chmod 0660 /sys/class/sec/sec_touchkey/keypad_enable
@@ -390,10 +380,11 @@ on post-fs-data
     chown system system /efs/gyro_cal_data
     chmod 0640 /efs/gyro_cal_data
     restorecon /efs/gyro_cal_data
-
-# Set permissions for firmware path control
-    chown wifi wifi /sys/module/dhd/parameters/firmware_path
-    chown wifi wifi /sys/module/dhd/parameters/nvram_path
+    
+    # Remove symlinks to avoid issues with migrate after nandroid restores
+    # Will be recreated at end of boot
+    rm /data/data/com.android.providers.telephony/databases
+    rm /data/data/com.android.providers.telephony/shared_prefs
 
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class main
@@ -471,7 +462,6 @@ on property:init.svc.macloader=stopped
 # end of wifi
 
 on property:sys.boot_completed=1
-	restart cameraserver
     write /sys/block/mmcblk0/queue/scheduler row
 
     # Configure the hardware properly
@@ -531,6 +521,8 @@ on property:sys.boot_completed=1
     chmod 664 /sys/devices/system/cpu/cpu3/online
     write /dev/cpuctl/apps/cpu.notify_on_migrate 1
 
+	write /sys/module/msm_thermal/core_control/enabled 1
+
     # Configure the cpu-boost module
     write /sys/module/cpu_boost/parameters/boost_ms 10
     write /sys/module/cpu_boost/parameters/sync_threshold 1728000
@@ -539,7 +531,8 @@ on property:sys.boot_completed=1
     write /sys/module/cpu_boost/parameters/plug_boost_freq 1728000
     write /sys/module/cpu_boost/parameters/plug_boost_ms 5
 
-    write /sys/module/msm_thermal/core_control/enabled 1
+	# post boot
+    setprop sys.perf.profile 1
 
     # Post boot services
     rm /data/system/perfd/default_values
@@ -550,6 +543,9 @@ on property:sys.boot_completed=1
     symlink /data/user_de/0/com.android.providers.telephony/shared_prefs /data/data/com.android.providers.telephony/shared_prefs
     restorecon /data/data/com.android.providers.telephony/databases
     restorecon /data/data/com.android.providers.telephony/shared_prefs
+    
+on property:sys.boot_completed=0
+    setprop sys.perf.profile 2
     
 service ds_fmc_appd /system/bin/ds_fmc_appd -p "rmnet0" -D
     class late_start
@@ -586,9 +582,3 @@ on property:persist.sys.ssr.restart_level=3
 
 on property:apexd.status=ready
     mount none /system/etc/swcodec/ld.config.txt /apex/com.android.media.swcodec/etc/ld.config.txt bind
-
-service hvdcp /system/vendor/bin/hvdcp
-    class core
-    user root
-    group root
-    disabled
