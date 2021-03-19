@@ -64,7 +64,6 @@ LZMA_RAMDISK_TARGETS := recovery
 TARGET_LD_SHIM_LIBS = \
     /system/vendor/lib/hw/camera.vendor.msm8974.so|libshim_camera.so \
     /system/vendor/lib/libperipheral_client.so|libshim_binder.so
-	
 TARGET_PROCESS_SDK_VERSION_OVERRIDE += \
     /system/bin/mediaserver=22 \
     /system/vendor/bin/mm-qcamera-daemon=22 \
@@ -80,33 +79,34 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2506096640
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12828261888
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072
-TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
 TARGET_EXFAT_DRIVER := sdfat
 TARGET_KERNEL_HAVE_NTFS := true
 BOARD_ROOT_EXTRA_FOLDERS := efs firmware/radio firmware/adsp firmware-modem
-BOARD_ROOT_EXTRA_SYMLINKS := /data/tombstones:/tombstones
-
-# Properties
-TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
+BOARD_ROOT_EXTRA_SYMLINKS := \
+    /data/tombstones:/tombstones
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
 
 # Pre-Optimize DEX
 WITH_DEXPREOPT := true
 
+# Properties
+TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
+
+# Radio
+BOARD_PROVIDES_LIBRIL := true
+
 # Recovery
 TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
-
-# RIL
-BOARD_PROVIDES_LIBRIL := true
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2017-04-01
 
-# Sensors
-TARGET_NO_SENSOR_PERMISSION_CHECK := true
-
 # SELinux
 BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy
+
+# Sensors
+TARGET_NO_SENSOR_PERMISSION_CHECK := true
 
 # WiFi
 BOARD_HAVE_SAMSUNG_WIFI := true
