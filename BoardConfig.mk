@@ -81,7 +81,7 @@ BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072
 TARGET_EXFAT_DRIVER := sdfat
 TARGET_KERNEL_HAVE_NTFS := true
-BOARD_ROOT_EXTRA_FOLDERS := efs firmware/radio firmware/adsp firmware-modem
+BOARD_ROOT_EXTRA_FOLDERS := efs firmware firmware/radio firmware/adsp firmware-modem
 BOARD_ROOT_EXTRA_SYMLINKS := \
     /data/tombstones:/tombstones
 TARGET_USERIMAGES_USE_EXT4 := true
