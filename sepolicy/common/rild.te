@@ -1,5 +1,5 @@
 allow rild device:chr_file ioctl;
-allow rild proc_qtaguid_stat:file { open read };
+allow rild proc_qtaguid_stat:file { open read getattr };
 allow rild device:chr_file read;
 allow rild device:chr_file open;
 allow rild system_data_file:lnk_file read;
