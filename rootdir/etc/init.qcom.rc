@@ -368,6 +368,9 @@ on post-fs-data
     chown system system /sys/class/power_supply/battery/batt_slate_mode
     
     setprop vold.post_fs_data_done 1
+    
+on property:sys.boot_completed=1
+    restart cameraserver
 
 # GPIO DVS
     chown radio system /sys/class/secgpio_check/secgpio_check_all/secgpio_ctrl
