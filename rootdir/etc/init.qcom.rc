@@ -346,7 +346,7 @@ on post-fs-data
 
     #Create directories for wiper services
     mkdir /data/wpstiles/ 0755 shell
-    mkdir /data/wiper 0755 gps qcom_oncrpc
+    mkdir /data/wiper 0755 gps
 
     #Create directories for gpsone_daemon services
     mkdir /data/misc/location/gpsone_d 0770 system gps
