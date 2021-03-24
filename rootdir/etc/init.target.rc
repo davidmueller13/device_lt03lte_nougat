@@ -84,7 +84,6 @@ on post-fs-data
     restorecon /efs/drm/data_agent
     restorecon /efs/imei
     restorecon /efs/prox_cal
-    restorecon /efs/mps_code.dat
     restorecon_recursive /efs/FactoryApp
     # DivX DRM
     mkdir /efs/.files 0775
@@ -128,13 +127,13 @@ on post-fs-data
     chmod 0660 /data/.psm.info
 
     # icd
-    exec icd_check
-    chown system system /dev/icd
-    chmod 0644 /dev/icd
-    write /dev/icdr 0
-    chown system system /dev/icdr
-    chmod 0644 /dev/icdr
-    chown system system /dev/tzic
+#    exec icd_check
+#    chown system system /dev/icd
+#    chmod 0644 /dev/icd
+#    write /dev/icdr 0
+#    chown system system /dev/icdr
+#    chmod 0644 /dev/icdr
+#    chown system system /dev/tzic
 
     # h2k permission
     chmod 0644 /efs/redata.bin
@@ -534,9 +533,6 @@ service qcamerasvr /vendor/bin/mm-qcamera-daemon
     class main
     user camera
     group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
-
-on property:init.svc.media=restarting
-    restart qcamerasvr
 
 service qseecomd /vendor/bin/qseecomd
    class core

@@ -170,27 +170,6 @@
          don't support RIL_REQUEST_GET_RADIO_CAPABILITY
          format is UMTS|LTE|... -->
     <string translatable="false" name="config_radio_access_family">GSM|GPRS|EDGE|WCDMA|LTE</string>
-    
-        <!-- Values for GPS configuration
-    <string-array translatable="false" name="config_gpsParameters">
-        <item>XTRA_SERVER_1=https://xtrapath1.izatcloud.net/xtra3grc.bin</item>
-        <item>XTRA_SERVER_2=https://xtrapath2.izatcloud.net/xtra3grc.bin</item>
-        <item>XTRA_SERVER_3=https://xtrapath3.izatcloud.net/xtra3grc.bin</item>
-        <item>NTP_SERVER=north-america.pool.ntp.org</item>
-        <item>SUPL_VER=0x20000</item>
-        <item>SUPL_ES=0</item>
-        <item>CAPABILITIES=0x31</item>
-        <item>SUPL_HOST=supl.google.com</item>
-        <item>SUPL_PORT=7275</item>
-        <item>SUPL_MODE=1</item>
-        <item>LPP_PROFILE=0</item>
-        <item>A_GLONASS_POS_PROTOCOL_SELECT=0</item>
-    </string-array>
-     -->
-    
-    <!-- True if the Irda service should be started at system start. This currently only
-         supports Samsung Galaxy S4. -->
-    <!-- <bool name="config_enableIrdaManagerService">true</bool> -->
 
     <!-- Indicate whether the lid state impacts the accessibility of
          the navigation buttons.  0 means it doesn't, 1 means it is accessible
@@ -203,10 +182,6 @@
          The default is false. -->
     <bool name="config_lidControlsSleep">true</bool>
 
-    <!-- Enable translucent UI -->
-    <bool name="config_enableLockScreenTranslucentDecor">true</bool>
-    <bool name="config_enableTranslucentDecor">true</bool>
-
     <bool name="config_hotswapCapable">true</bool>
 
     <!-- enable doze powersaving mode -->
@@ -215,22 +190,6 @@
     <!-- Older rotation sensors are not setting event.timestamp correctly. Setting to
           true will use SystemClock.elapsedRealtimeNanos() to set timestamp. -->
      <bool name="config_useSystemClockforRotationSensor">true</bool>
-     
-    <!-- If enabled, capacitive keys will only light up when pressed.
-         Otherwise, the buttons will light up whenever the user interacts with the device
-    <bool name="config_buttonLightOnKeypressOnly">true</bool> -->
-    
-      <!-- Whether or not swipe up gesture's opt-in setting is available on this device -->
-    <bool name="config_swipe_up_gesture_setting_available">true</bool>
-    
-      <!-- Do not set the system language as value of EF LI/EF PL -->
-    <bool name="config_use_sim_language_file">false</bool>
-    
-      <!-- Default interface to monitor data use -->
-    <string name="config_datause_iface">rmnet_usb0</string>
-    
-      <!-- Boolean indicating whether or not wifi firmware debugging is enabled -->
-    <bool translatable="false" name="config_wifi_enable_wifi_firmware_debugging">false</bool>
 	
 	    <!-- Disable rounded corners on windows to improve graphics performance -->
     <bool name="config_supportsRoundedCornersOnWindows">false</bool>

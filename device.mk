@@ -100,7 +100,6 @@ PRODUCT_PACKAGES += \
 
 # Radio
 PRODUCT_PACKAGES += \
-	libreference-ril \
 	libsecnativefeature
 
 # Ramdisk

@@ -89,10 +89,6 @@ on boot
     chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
 
-	# set gps loc launcher
-    chown gps gps /vendor/bin/loc_launcher
-    chmod 0775 /vendor/bin/loc_launcher
-
     #Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 2770 radio radio
     mkdir /dev/socket/qmux_audio 2770 media audio
@@ -140,10 +136,6 @@ on boot
 	# Set permissions for firmware path control
     chown wifi wifi /sys/module/dhd/parameters/firmware_path
     chown wifi wifi /sys/module/dhd/parameters/nvram_path
-
-    # Flash storage isn't a good entropy source, and only causes locking
-    # overhead in the kernel. Turn it off.
-    write /sys/block/mmcblk0/queue/add_random 0
 
     # IR_LED
     chown system radio /sys/class/sec/sec_ir/ir_send
@@ -271,13 +263,6 @@ on boot
 # msm specific files that need to be created on /data
 on post-fs-data
 
-    # Allow writing to the kernel trace log.
-    chmod 0222 /sys/kernel/debug/tracing/trace_marker
-
-# we will remap this as /storage/container with the sdcard fuse tool
-    mkdir /data/container 0770 system system
-    chown system system /data/container
-
     # Create the directories used by the Wireless subsystem
     mkdir /data/vendor/wifi 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
@@ -346,7 +331,7 @@ on post-fs-data
 
     #Create directories for wiper services
     mkdir /data/wpstiles/ 0755 shell
-    mkdir /data/wiper 0755 gps
+#    mkdir /data/wiper 0755 gps
 
     #Create directories for gpsone_daemon services
     mkdir /data/misc/location/gpsone_d 0770 system gps
@@ -398,11 +383,6 @@ service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     user root
     oneshot
 
-service loc_launcher /vendor/bin/loc_launcher
-    #loc_launcher will start as root and set its uid to gps
-    class late_start
-    group gps inet net_raw diag oem_2950 net_admin wifi
-
 service rmt_storage /vendor/bin/rmt_storage
     class core
     user root
@@ -452,13 +432,6 @@ service macloader /vendor/bin/macloader
 on property:wlan.driver.status=ok
     start macloader
 
-on property:init.svc.macloader=stopped
-    chown system root /data/.cid.info
-    chmod 0664 /data/.cid.info
-    chown system root /data/.rev
-    chmod 0664 /data/.rev
-# end of wifi
-
 on property:sys.boot_completed=1
     write /sys/block/mmcblk0/queue/scheduler row
 
@@ -484,7 +457,6 @@ on property:sys.boot_completed=1
     write /sys/module/msm_pm/modes/cpu1/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu2/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu3/retention/idle_enabled 1
-    write /sys/module/msm_pm/modes/cpu0/retention/suspend_enabled 1
     write /sys/module/msm_pm/modes/cpu1/retention/suspend_enabled 1
     write /sys/module/msm_pm/modes/cpu2/retention/suspend_enabled 1
     write /sys/module/msm_pm/modes/cpu3/retention/suspend_enabled 1
