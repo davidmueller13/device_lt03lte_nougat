@@ -33,7 +33,7 @@ import /vendor/etc/init/hw/init.qcom.power.rc
 on early-init
     setprop sys.boot_completed 0
     
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
+    mount debugfs debugfs /sys/kernel/debug
     chmod 0755 /sys/kernel/debug
 
 	# GPS
@@ -90,10 +90,14 @@ on boot
     chown bluetooth bluetooth /dev/btlock
 
     #Create QMUX deamon socket area
-    mkdir /dev/socket/qmux_radio 2770 radio radio
-    mkdir /dev/socket/qmux_audio 2770 media audio
-    mkdir /dev/socket/qmux_bluetooth 2770 bluetooth bluetooth
-    mkdir /dev/socket/qmux_gps 2770 gps gps
+	mkdir /dev/socket/qmux_radio 0770 radio radio
+    chmod 2770 /dev/socket/qmux_radio
+    mkdir /dev/socket/qmux_audio 0770 media audio
+    chmod 2770 /dev/socket/qmux_audio
+    mkdir /dev/socket/qmux_bluetooth 0770 bluetooth bluetooth
+    chmod 2770 /dev/socket/qmux_bluetooth
+    mkdir /dev/socket/qmux_gps 0770 gps gps
+    chmod 2770 /dev/socket/qmux_gps
 
     #Remove SUID bit for iproute2 ip tool
     chmod 0755 /system/bin/ip
@@ -111,8 +115,8 @@ on boot
 
     # Assign TCP buffer thresholds to be ceiling value of technology maximums
     # Increased technology maximums should be reflected here.
-    write /proc/sys/net/core/rmem_max  2097152
-    write /proc/sys/net/core/wmem_max  2097152
+    write /proc/sys/net/core/rmem_max  8388608
+    write /proc/sys/net/core/wmem_max  8388608
 
     #To allow interfaces to get v6 address when tethering is enabled
     write /proc/sys/net/ipv6/conf/rmnet0/accept_ra 2
@@ -252,14 +256,6 @@ on boot
     chown system radio /sys/class/sec/sec_touchkey/extra_button_event
     chown system radio /sys/class/sec/sec_touchscreen/set_tsp_for_inputmethod
 
-    # To prevent out of order acknowledgements from making
-    # connection tracking to treat them as not belonging to
-    # the connection they belong to.
-    # Otherwise, a weird issue happens in which some long
-    # connections on high-throughput links get dropped when
-    # an ack packet comes out of order
-    write /proc/sys/net/netfilter/nf_conntrack_tcp_be_liberal 1
-
 # msm specific files that need to be created on /data
 on post-fs-data
 
@@ -267,6 +263,10 @@ on post-fs-data
     mkdir /data/vendor/wifi 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
     mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
+
+    # Create the directory used by CnE subsystem
+    mkdir /data/connectivity 0771 system system
+    chown system system /data/connectivity
 
     # for WIFI TRP/TIS
     chown system root /data/.psm.info
@@ -283,9 +283,19 @@ on post-fs-data
     chown system wifi /efs/wifi/.mac.info
     chmod 0660 /efs/wifi/.mac.info
     restorecon /efs/wifi/.mac.info
+    
+    # for WIFI Front End Module
+    chown system system /data/.cid.info
+    chmod 0664 /data/.cid.info
+    
+    # Create directory used by audio subsystem
+    mkdir /data/misc/audio 0770 audio audio
+    restorecon_recursive /data/misc/audio
 
     # Mounting of persist is moved to 'on emmc-fs' and 'on fs' sections
     # We chown/chmod /persist again so because mount is run as root + defaults
+    chown system system /persist
+    chmod 0771 /persist
     chmod 0664 /sys/devices/platform/msm_sdcc.1/polling
     chmod 0664 /sys/devices/platform/msm_sdcc.2/polling
     chmod 0664 /sys/devices/platform/msm_sdcc.3/polling
@@ -334,7 +344,7 @@ on post-fs-data
 #    mkdir /data/wiper 0755 gps
 
     #Create directories for gpsone_daemon services
-    mkdir /data/misc/location/gpsone_d 0770 system gps
+    mkdir /data/misc/gpsone_d 0770 system gps
 
     #Create directories for QuIPS
     mkdir /data/misc/quipc 0770 system gps
@@ -343,6 +353,14 @@ on post-fs-data
     mkdir /data/misc/location 0770 gps gps
     mkdir /data/misc/location/mq 0770 gps gps
     mkdir /data/misc/location/xtwifi 0770 gps gps
+    
+    #Create directory from IMS services
+    mkdir /data/shared 0755
+    chown system system /data/shared
+
+    #Create directory for FOTA
+    mkdir /data/fota 0771
+    chown system system /data/fota
 
     # Create /data/time folder for time-services
     mkdir /data/time 0700 system system
@@ -356,10 +374,7 @@ on post-fs-data
     # Smart charging for lt03lte
     chown system system /sys/class/power_supply/battery/batt_slate_mode
     
-    setprop vold.post_fs_data_done 1
     
-on property:sys.boot_completed=1
-    restart cameraserver
 
 # GPIO DVS
     chown radio system /sys/class/secgpio_check/secgpio_check_all/secgpio_ctrl
@@ -378,6 +393,8 @@ on property:sys.boot_completed=1
     rm /data/data/com.android.providers.telephony/databases
     rm /data/data/com.android.providers.telephony/shared_prefs
 
+	setprop vold.post_fs_data_done 1
+
 service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class main
     user root
@@ -387,7 +404,6 @@ service rmt_storage /vendor/bin/rmt_storage
     class core
     user root
     group system wakelock
-    disabled
 
 on property:ro.boot.emmc=true
     start rmt_storage
@@ -405,16 +421,10 @@ on property:ro.debuggable=1
     chmod 0666 /sys/class/mhl/timing
 
 # QMUX must be in multiple groups to support external process connections
-service qmuxd /system/vendor/bin/qmuxd
+service qmuxd /vendor/bin/qmuxd
     class main
-    user radio
-    group radio audio bluetooth gps oem_2950 log
-
-service sensors /system/vendor/bin/sensors.qcom
-    class late_start
     user root
-    group root
-    disabled
+    group radio audio bluetooth gps oem_2950 log
 
 # Adjust socket buffer to enlarge TCP receive window for high bandwidth
 # but only if ro.data.large_tcp_window_size property is set.
@@ -525,6 +535,10 @@ service ds_fmc_appd /system/bin/ds_fmc_appd -p "rmnet0" -D
 
 on property:persist.data.ds_fmc_app.mode=1
     start ds_fmc_appd
+
+on property:ro.data.large_tcp_window_size=true
+    # Adjust socket buffer to enlarge TCP receive window for high bandwidth (e.g. DO-RevB)
+    write /proc/sys/net/ipv4/tcp_adv_win_scale  2
 
 service hcidump /system/bin/sh /system/etc/hcidump.sh
     user bluetooth
