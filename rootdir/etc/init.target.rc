@@ -82,7 +82,7 @@ on post-fs-data
     restorecon /efs/drm
     restorecon /efs/drm/sdrm
     restorecon /efs/drm/data_agent
-    restorecon /efs/imei
+    restorecon_recursive /efs/imei
     restorecon /efs/prox_cal
     restorecon_recursive /efs/FactoryApp
     # DivX DRM
@@ -203,12 +203,12 @@ on boot
     chown system system  /sys/class/mdnie/mdnie/bypass
 
     chown system system /sys/class/lcd/panel/window_type
-    chown system system /sys/class/lcd/panel/power_reduce
-    chown system system /sys/class/lcd/panel/siop_enable
-    chown system system /sys/class/lcd/panel/temperature
-    chown system system /sys/class/lcd/panel/tuning
+    chown radio system /sys/class/lcd/panel/power_reduce
+    chown radio system /sys/class/lcd/panel/siop_enable
+    chown radio system /sys/class/lcd/panel/temperature
+    chown radio system /sys/class/lcd/panel/tuning
 
-    chown system system /sys/class/lcd/panel/partial_disp
+    chown radio system /sys/class/lcd/panel/partial_disp
     chmod 0660 /sys/class/lcd/panel/partial_disp
 
 
@@ -262,20 +262,12 @@ on boot
     chown system system /sys/class/sec/sec_touchkey/brightness
 
 # Permissions for Camera
-    chown root system /sys/class/camera/rear/rear_camantibanding
-    chown system system /sys/class/camera/rear/rear_camfw
-    chown system system /sys/class/camera/rear/rear_camfw_full
-    chown system system /sys/class/camera/rear/rear_camfw_load
-    chown system radio /sys/class/camera/rear/rear_latest_module_check
-    chown system system /sys/class/camera/rear/rear_camtype
-    chown system system /sys/class/camera/rear/rear_corever
-    chown system system /sys/class/camera/rear/rear_companionfw_full
-    chown system system /sys/class/camera/rear/rear_calcheck
-    chown system system /sys/class/camera/rear/rear_fwcheck
-    chown system system /sys/class/camera/rear/isp_core
-    chown system radio /sys/class/camera/flash/rear_flash
-    chown system system /sys/class/camera/front/front_camfw
-    chown system system /sys/class/camera/front/front_camtype
+   chown system radio /sys/class/camera/rear/rear_camfw
+   chown system radio /sys/class/camera/rear/rear_camfw_load
+   chown system radio /sys/class/camera/rear/rear_camtype
+   chown system radio /sys/class/camera/flash/rear_flash
+   chown system radio /sys/class/camera/front/front_camfw
+   chown system radio /sys/class/camera/front/front_camtype
 
     #OTG Test
     chown system radio /sys/class/host_notify/usb_otg/booster
@@ -505,7 +497,7 @@ on boot
     chown system radio /sys/devices/virtual/sec/bamdmux/waketime
 
 # Permissions for gpio_keys
-    chown system system /sys/class/sec/sec_key/wakeup_keys
+    chown system radio /sys/class/sec/sec_key/wakeup_keys
     write /sys/class/sec/sec_key/wakeup_keys 114,115,116,172
 
     # Vibrator
@@ -546,9 +538,12 @@ service mpdecision /vendor/bin/mpdecision --avg_comp
    disabled
 
 service thermal-engine /vendor/bin/thermal-engine
-   class core
+   class main
    user root
-   group radio system
+   socket thermal-send-client stream 0666 system system
+   socket thermal-recv-client stream 0660 system system
+   socket thermal-recv-passive-client stream 0666 system system
+   group root
 
 service adsprpcd /vendor/bin/adsprpcd
    class main

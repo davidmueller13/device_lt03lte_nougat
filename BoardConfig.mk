@@ -32,8 +32,8 @@ USE_CUSTOM_AUDIO_POLICY := 1
 USE_XML_AUDIO_POLICY_CONF := 1
 
 # Bluetooth
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
 BOARD_CUSTOM_BT_CONFIG := $(COMMON_PATH)/bluetooth/libbt_vndcfg.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(COMMON_PATH)/bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
 
 # Bootloader
@@ -49,18 +49,17 @@ TARGET_FS_CONFIG_GEN += $(COMMON_PATH)/config.fs
 DEVICE_MANIFEST_FILE += $(COMMON_PATH)/manifest.xml
 
 # Kernel
-BOARD_CUSTOM_BOOTIMG := true
-BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
 BOARD_KERNEL_BASE := 0x00000000
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3 zcache.enabled=1 zcache.compressor=lz4
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=23 msm_rtb.filter=0x37 ehci-hcd.park=3
 BOARD_KERNEL_IMAGE_NAME := zImage
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000
+LZMA_RAMDISK_TARGETS := recovery
+BOARD_CUSTOM_BOOTIMG := true
+BOARD_CUSTOM_BOOTIMG_MK := hardware/samsung/mkbootimg.mk
 TARGET_KERNEL_CONFIG := lineage_lt03lte_defconfig
 TARGET_KERNEL_SOURCE := kernel/samsung/lt03lte
-LZMA_RAMDISK_TARGETS := recovery
 
 # Legacy BLOB Support
 TARGET_LD_SHIM_LIBS = \
@@ -81,9 +80,7 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 2506096640
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 12828261888
 BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072
-TARGET_EXFAT_DRIVER := sdfat
-TARGET_KERNEL_HAVE_NTFS := true
-BOARD_ROOT_EXTRA_FOLDERS := efs firmware firmware/radio firmware/adsp firmware-modem
+BOARD_ROOT_EXTRA_FOLDERS := efs firmware firmware-modem persist
 BOARD_ROOT_EXTRA_SYMLINKS := \
     /data/tombstones:/tombstones
 TARGET_USERIMAGES_USE_EXT4 := true
@@ -96,7 +93,9 @@ TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
 BOARD_PROVIDES_LIBRIL := true
 
 # Recovery
+TARGET_RECOVERY_DENSITY := xhdpi
 TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/rootdir/etc/fstab.qcom
+TARGET_RECOVERY_SKIP_EV_REL_INPUT := true
 
 # Security patch level
 VENDOR_SECURITY_PATCH := 2017-04-01

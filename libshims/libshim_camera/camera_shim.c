@@ -1,6 +1,5 @@
 /*
  * Copyright (C) 2017 The LineageOS Project
- * Copyright (C) 2019 The LineageOS Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +14,25 @@
  * limitations under the License.
  */
 
-int _ZNK7android16CameraParameters8getInt64EPKc(const char *key);
+// rt hdr
+const char *_ZN7android16CameraParameters10KEY_RT_HDRE = "rt-hdr";
+const char *_ZN7android16CameraParameters20KEY_SUPPORTED_RT_HDRE = "rt-hdr-values";
+const char *_ZN7android16CameraParameters9RTHDR_OFFE = "off";
+const char *_ZN7android16CameraParameters8RTHDR_ONE = "on";
 
-int _ZNK7android16CameraParameters8getInt64EPKc(const char *key)
+// phase af
+const char *_ZN7android16CameraParameters12KEY_PHASE_AFE = "phase-af";
+const char *_ZN7android16CameraParameters22KEY_SUPPORTED_PHASE_AFE = "phase-af-values";
+const char *_ZN7android16CameraParameters7PAF_OFFE = "off";
+const char *_ZN7android16CameraParameters6PAF_ONE = "on";
+
+// dynamic range control
+const char *_ZN7android16CameraParameters25KEY_DYNAMIC_RANGE_CONTROLE = "dynamic-range-control";
+const char *_ZN7android16CameraParameters35KEY_SUPPORTED_DYNAMIC_RANGE_CONTROLE = "dynamic-range-control-values";
+const char *_ZN7android16CameraParameters7DRC_OFFE = "off";
+const char *_ZN7android16CameraParameters6DRC_ONE = "on";
+
+int _ZNK7android16CameraParameters8getInt64EPKc(__attribute__((__unused__)) const char* key)
 {
     return -1;
 }
-
-//int CameraParameters::getInt64(const char *key) const { return -1; };
