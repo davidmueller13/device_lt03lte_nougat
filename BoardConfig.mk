@@ -126,4 +126,4 @@ WIFI_DRIVER_NVRAM_PATH      := "/vendor/etc/wifi/nvram_net.txt"
 WIFI_HIDL_UNIFIED_SUPPLICANT_SERVICE_RC_ENTRY := true
 
 # Inherit from the proprietary version
--include vendor/samsung/lt03lte/BoardConfigVendor.mk
+include vendor/samsung/lt03lte/BoardConfigVendor.mk

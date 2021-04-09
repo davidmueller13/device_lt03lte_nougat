@@ -144,7 +144,7 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 
 # Get non-open-source specific aspects
-$(call inherit-product-if-exists, vendor/samsung/lt03lte/lt03lte-vendor.mk)
+$(call inherit-product, vendor/samsung/lt03lte/lt03lte-vendor.mk)
 
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
