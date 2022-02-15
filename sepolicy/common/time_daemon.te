@@ -1,2 +1,0 @@
-allow time_daemon device:chr_file { read write open };
-allow time_daemon device:chr_file ioctl;

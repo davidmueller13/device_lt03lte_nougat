@@ -1,4 +1,0 @@
-allow untrusted_app proc_stat:file { open };
-allow untrusted_app sysfs_batteryinfo:dir { search };
-allow untrusted_app proc_version:file { read };
-allow untrusted_app net_dns_prop:file { read };

@@ -1,3 +1,0 @@
-allow hal_sensors_default system_data_file:file { read open write getattr };
-allow hal_sensors_default system_data_file:dir { write };
-allow hal_sensors_default vendor_sensor_lib_file:file execmod;
