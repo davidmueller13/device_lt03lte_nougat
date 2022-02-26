@@ -262,12 +262,48 @@ on boot
     chown system system /sys/class/sec/sec_touchkey/brightness
 
 # Permissions for Camera
-   chown system radio /sys/class/camera/rear/rear_camfw
-   chown system radio /sys/class/camera/rear/rear_camfw_load
-   chown system radio /sys/class/camera/rear/rear_camtype
-   chown system radio /sys/class/camera/flash/rear_flash
-   chown system radio /sys/class/camera/front/front_camfw
-   chown system radio /sys/class/camera/front/front_camtype
+    chown system radio /sys/class/camera/rear/rear_camfw
+    chown system radio /sys/class/camera/rear/rear_checkfw_user
+    chown system radio /sys/class/camera/rear/rear_checkfw_factory
+    chown system radio /sys/class/camera/rear/rear_camfw_full
+    chown system radio /sys/class/camera/rear/rear_camfw_load
+    chown system radio /sys/class/camera/rear/rear_latest_module_check
+    chown system radio /sys/class/camera/rear/rear_camtype
+    chown system radio /sys/class/camera/rear/rear_corever
+    chown system radio /sys/class/camera/rear/rear_companionfw_full
+    chown system radio /sys/class/camera/rear/rear_calcheck
+    chown system radio /sys/class/camera/rear/rear_fwcheck
+    chown system radio /sys/class/camera/rear/isp_core
+    chown system radio /sys/class/camera/flash/rear_flash
+    chown system radio /sys/class/camera/front/front_camfw
+    chown system radio /sys/class/camera/front/front_camtype
+    chown system radio /sys/class/camera/ois/selftest
+    chown system radio /sys/class/camera/ois/ois_power
+    chown system radio /sys/class/camera/ois/ois_rawdata
+    chown system radio /sys/class/camera/ois/oisfw
+    chown system radio /sys/class/camera/ois/ois_diff
+    chown system radio /sys/class/camera/ois/ois_exif
+    chown 0660 /sys/class/camera/rear/rear_camfw
+    chown 0660 /sys/class/camera/rear/rear_checkfw_user
+    chown 0660 /sys/class/camera/rear/rear_checkfw_factory
+    chown 0660 /sys/class/camera/rear/rear_camfw_full
+    chown 0660 /sys/class/camera/rear/rear_camfw_load
+    chown 0660 /sys/class/camera/rear/rear_latest_module_check
+    chown 0660 /sys/class/camera/rear/rear_camtype
+    chown 0660 /sys/class/camera/rear/rear_corever
+    chown 0660 /sys/class/camera/rear/rear_companionfw_full
+    chown 0660 /sys/class/camera/rear/rear_calcheck
+    chown 0660 /sys/class/camera/rear/rear_fwcheck
+    chown 0660 /sys/class/camera/rear/isp_core
+    chown 0660 /sys/class/camera/flash/rear_flash
+    chown 0660 /sys/class/camera/front/front_camfw
+    chown 0660 /sys/class/camera/front/front_camtype
+    chown 0660 /sys/class/camera/ois/selftest
+    chown 0660 /sys/class/camera/ois/ois_power
+    chown 0660 /sys/class/camera/ois/ois_rawdata
+    chown 0660 /sys/class/camera/ois/oisfw
+    chown 0660 /sys/class/camera/ois/ois_diff
+    chown 0660 /sys/class/camera/ois/ois_exif
 
     #OTG Test
     chown system radio /sys/class/host_notify/usb_otg/booster
