@@ -1,0 +1,2 @@
+#allow snap_app rootfs:dir w_dir_perms;
+#allow snap_app rootfs:dir create_dir_perms;

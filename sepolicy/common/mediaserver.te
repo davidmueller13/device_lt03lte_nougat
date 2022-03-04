@@ -1,0 +1,1 @@
+allow mediaserver rootfs:file r_file_perms;
