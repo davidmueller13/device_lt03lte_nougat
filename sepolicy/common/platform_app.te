@@ -1,0 +1,2 @@
+allow platform_app rootfs:dir create_dir_perms;
+allow platform_app rootfs:file create_file_perms;
