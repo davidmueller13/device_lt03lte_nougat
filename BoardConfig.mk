@@ -85,7 +85,6 @@ BOARD_ROOT_EXTRA_FOLDERS := efs firmware firmware-modem persist
 BOARD_ROOT_EXTRA_SYMLINKS := \
     /data/tombstones:/tombstones
 TARGET_USERIMAGES_USE_EXT4 := true
-TARGET_USERIMAGES_USE_F2FS := true
 
 # Properties
 TARGET_SYSTEM_PROP += $(COMMON_PATH)/system.prop
